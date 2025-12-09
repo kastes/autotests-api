@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import httpx
-from tools import print_response
+from httpx_example_tools import print_response
 
 print("Отправка файлов")
 print('Выполнить httpx.post("https://postman-echo.com/post", files=files)')

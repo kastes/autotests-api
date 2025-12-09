@@ -1,5 +1,5 @@
 import httpx
-from tools import print_response
+from httpx_example_tools import print_response
 
 # Чтобы избежать зависаний, всегда указывайте timeout
 try:

@@ -1,5 +1,5 @@
 import httpx
-from tools import print_response
+from httpx_example_tools import print_response
 
 with httpx.Client() as client:
     response1 = client.get("https://jsonplaceholder.typicode.com/todos/1")

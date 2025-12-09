@@ -1,5 +1,5 @@
 import httpx
-from tools import print_response
+from httpx_example_tools import print_response
 
 print('Выполнить GET-запрос  httpx.get("https://jsonplaceholder.typicode.com/todos/1")')
 resp = httpx.get("https://jsonplaceholder.typicode.com/todos/1")
