@@ -8,16 +8,34 @@ from clients.public_http_builder import get_public_http_client
 
 class LoginRequestDict(TypedDict):
     """
-    Описание структуры запроса на аутентификацию.
+    Описание структуры запроса аутентификации.
     """
 
     email: str
     password: str
 
 
+class Token(TypedDict):
+    """
+    Описание структуры токена аутентификации.
+    """
+
+    tokenType: str
+    accessToken: str
+    refreshToken: str
+
+
+class LoginResponseDict(TypedDict):  # Добавили структуру ответа аутентификации
+    """
+    Описание структуры ответа аутентификации.
+    """
+
+    token: Token
+
+
 class RefreshRequestDict(TypedDict):
     """
-    Описание структуры запроса для обновления токена.
+    Описание структуры запроса обновления токена.
     """
 
     refreshToken: str
@@ -36,6 +54,18 @@ class AuthenticationClient(APIClient):
         :return: Ответ от сервера httpx.Response
         """
         return self.post("/api/v1/authentication/login", json=request)
+
+    def login(self, request: LoginRequestDict) -> LoginResponseDict:
+        """
+        Docstring for login
+
+        :param request: Данные аутентификации пользователя
+        :type request: LoginRequestDict
+        :return: Данные токена аутентификации
+        :rtype: LoginResponseDict
+        """
+        response = self.login_api(request)
+        return response.json()
 
     def refresh_api(self, request: RefreshRequestDict) -> Response:
         """
