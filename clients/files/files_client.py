@@ -1,4 +1,4 @@
-from typing import TypedDict
+from typing import ReadOnly, TypedDict
 
 from httpx import Response
 
@@ -18,6 +18,17 @@ class CreateFileRequestDict(TypedDict):
     upload_file: str
 
 
+class File(TypedDict):
+    id: str
+    filename: str
+    directory: str
+    url: ReadOnly[str]
+
+
+class CreateFileResponseDict(TypedDict):
+    file: File
+
+
 class FilesClient(APIClient):
     """
     Клиент для работы с API файлов /api/v1/files
@@ -35,6 +46,18 @@ class FilesClient(APIClient):
         with open(request["upload_file"], "rb") as upload_file:
             response = self.post("/api/v1/files", data=request, files={"upload_file": upload_file})
         return response
+
+    def create_file(self, request: CreateFileRequestDict) -> CreateFileResponseDict:
+        """
+        Создать файл и вернуть данные в формате CreateFileResponseDict
+
+        :param request: Данные для создания файла
+        :type request: CreateFileRequestDict
+        :return: Данные файла
+        :rtype: CreateFileResponseDict
+        """
+        response = self.create_file_api(request)
+        return response.json()
 
     def get_file_api(self, file_id: str) -> Response:
         """

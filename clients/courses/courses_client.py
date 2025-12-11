@@ -3,7 +3,9 @@ from typing import NotRequired, TypedDict
 from httpx import Response
 
 from clients.api_client import APIClient
+from clients.files.files_client import File
 from clients.private_http_builder import AuthenticationUserDict, get_private_http_client
+from clients.users.private_users_client import User
 
 
 class GetCoursesQueryDict(TypedDict):
@@ -38,6 +40,21 @@ class UpdateCourseRequestDict(TypedDict, total=False):
     minScore: int
     description: str
     estimatedTime: str
+
+
+class Course(TypedDict):
+    id: str
+    title: str
+    maxScore: NotRequired[int]
+    minScore: NotRequired[int]
+    description: str
+    previewFile: File
+    estimatedTime: NotRequired[str]
+    createdByUser: User
+
+
+class CreateCourseResponseDict(TypedDict):
+    course: Course
 
 
 class CoursesClient(APIClient):
@@ -77,6 +94,18 @@ class CoursesClient(APIClient):
         :rtype: httpx.Response
         """
         return self.post("/api/v1/courses", json=request)
+
+    def create_course(self, request: CreateCourseRequestDict) -> CreateCourseResponseDict:
+        """
+        Создать курс и вернуть данные в формате CreateCourseResponseDict
+
+        :param request: Данные для создания курса
+        :type request: CreateCourseRequestDict
+        :return: Данные курса
+        :rtype: CreateCourseResponseDict
+        """
+        response = self.create_course_api(request)
+        return response.json()
 
     def update_course_api(self, course_id: str, request: UpdateCourseRequestDict) -> Response:
         """
