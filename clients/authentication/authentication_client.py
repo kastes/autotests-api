@@ -77,7 +77,7 @@ class AuthenticationClient(APIClient):
         return self.post("/api/v1/authentication/refresh", json=request)
 
 
-def get_autentication_client() -> AuthenticationClient:
+def get_authentication_client() -> AuthenticationClient:
     """
     Функция создаёт экземпляр AuthenticationClient с уже настроенным HTTP-клиентом.
 

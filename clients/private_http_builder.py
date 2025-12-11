@@ -5,7 +5,7 @@ from httpx import Client
 from clients import BASE_URL, TIMEOUT
 from clients.authentication.authentication_client import (
     LoginRequestDict,
-    get_autentication_client,
+    get_authentication_client,
 )
 
 
@@ -27,7 +27,7 @@ def get_private_http_client(user: AuthenticationUserDict) -> Client:
     :return: httpx.Client для запросов к закрытой части API.
     :rtype: httpx.Client
     """
-    authentication_client = get_autentication_client()
+    authentication_client = get_authentication_client()
     login_request = LoginRequestDict(email=user["email"], password=user["password"])
     token_data = authentication_client.login(login_request)
     headers = {"Authorization": f"Bearer {token_data['token']['accessToken']}"}
