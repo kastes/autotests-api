@@ -48,7 +48,7 @@ class AuthenticationClient(APIClient):
 
     def login_api(self, request: LoginRequestDict) -> Response:
         """
-        Выполняет аутентификацию пользователя
+        Выполнить аутентификацию пользователя
 
         :param request: Словать {"email": "str_email", "password": "str"}
         :return: Ответ от сервера httpx.Response
@@ -57,7 +57,7 @@ class AuthenticationClient(APIClient):
 
     def login(self, request: LoginRequestDict) -> LoginResponseDict:
         """
-        Docstring for login
+        Выполнить  аутентификацию пользователя и получить данные аутентификации
 
         :param request: Данные аутентификации пользователя
         :type request: LoginRequestDict

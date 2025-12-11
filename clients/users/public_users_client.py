@@ -18,6 +18,26 @@ class CreateUserRequestDict(TypedDict):
     middleName: str
 
 
+class User(TypedDict):
+    """
+    Описание структуры пользователя.
+    """
+
+    id: str
+    email: str
+    lastName: str
+    firstName: str
+    middleName: str
+
+
+class CreateUserResponseDict(TypedDict):
+    """
+    Описание структуры данных ответа создания пользователя.
+    """
+
+    user: User
+
+
 class PublicUsersClient(APIClient):
     """
     Клиент для работы с открытой частью API пользователей /api/v1/users.
@@ -25,7 +45,7 @@ class PublicUsersClient(APIClient):
 
     def create_user_api(self, request: CreateUserRequestDict) -> Response:
         """
-        Создаёт нового пользователя
+        Создать нового пользователя
 
         :param request: Данные для создания нового пользователя
         :type request: CreateUserDict
@@ -33,6 +53,18 @@ class PublicUsersClient(APIClient):
         :rtype: Response
         """
         return self.post("/api/v1/users", json=request)
+
+    def create_user(self, request: CreateUserRequestDict) -> CreateUserResponseDict:
+        """
+        Создать нового пользователя и получить данные пользователя
+
+        :param request: Данные для создания нового пользователя
+        :type request: CreateUserRequestDict
+        :return: Данные пользователя
+        :rtype: CreateUserResponseDict
+        """
+        response = self.create_user_api(request=request)
+        return response.json()
 
 
 def get_public_users_client() -> PublicUsersClient:

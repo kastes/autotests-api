@@ -24,8 +24,7 @@ create_user_request = CreateUserRequestDict(
     firstName="string",
     middleName="string",
 )
-create_user_response = public_users_client.create_user_api(create_user_request)
-create_user_data = create_user_response.json()
+create_user_data = public_users_client.create_user(create_user_request)
 print("User data: ", create_user_data)
 print()
 
@@ -36,5 +35,5 @@ authentication_user = AuthenticationUserDict(
 private_users_client = get_private_users_client(user=authentication_user)
 
 # 3 Получить данные пользователя по /api/v1/users/{user_id}
-get_user_response = private_users_client.get_user_api(user_id=create_user_data["user"]["id"])
-print("User data: ", get_user_response.json())
+get_user_data = private_users_client.get_user(user_id=create_user_data["user"]["id"])
+print("User data: ", get_user_data)
