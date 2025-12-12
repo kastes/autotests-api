@@ -1,4 +1,4 @@
-from typing import NotRequired, TypedDict
+from typing import TypedDict
 
 from httpx import Response
 
@@ -22,10 +22,10 @@ class CreateCourseRequestDict(TypedDict):
     """
 
     title: str
-    maxScore: NotRequired[int]
-    minScore: NotRequired[int]
+    maxScore: int | None
+    minScore: int | None
     description: str
-    estimatedTime: NotRequired[str]
+    estimatedTime: str | None
     previewFileId: str
     createdByUserId: str
 
@@ -45,11 +45,11 @@ class UpdateCourseRequestDict(TypedDict, total=False):
 class Course(TypedDict):
     id: str
     title: str
-    maxScore: NotRequired[int]
-    minScore: NotRequired[int]
+    maxScore: int | None
+    minScore: int | None
     description: str
     previewFile: File
-    estimatedTime: NotRequired[str]
+    estimatedTime: str | None
     createdByUser: User
 
 
