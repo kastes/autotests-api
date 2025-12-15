@@ -11,21 +11,20 @@ from pydantic import SecretStr
 from clients.courses.courses_client import CreateCourseRequestDict, get_courses_client
 from clients.files.files_client import CreateFileRequestDict, get_files_client
 from clients.private_http_builder import AuthenticationUserSchema
-from clients.users.public_users_client import (
-    CreateUserRequestDict,
-    get_public_users_client,
-)
+from clients.users.public_users_client import get_public_users_client
+from clients.users.users_schema import CreateUserRequestSchema
 from tools.fakers import get_random_email
 
 # 1 Создать пользователя через API
 public_users_client = get_public_users_client()
 
-create_user_request = CreateUserRequestDict(
+create_user_request = CreateUserRequestSchema(
     email=get_random_email(),
-    password="DANGER!!! SECRET!!!!",
-    lastName="string",
-    firstName="string",
-    middleName="string",
+    password=SecretStr("DANGER!!! SECRET!!!!"),
+    # mypy странно видит alias-ы. xxxx_name выдаёт предупреждение :(
+    last_name="string",  # type: ignore
+    first_name="string",
+    middle_name="string",
 )
 create_user_data = public_users_client.create_user(create_user_request)
 print("User data: ", create_user_data)
@@ -33,7 +32,7 @@ print()
 
 # 2 Загрузить файл превью курса
 authentication_user = AuthenticationUserSchema(
-    email=create_user_request["email"], password=SecretStr(create_user_request["password"])
+    email=create_user_request.email, password=create_user_request.password
 )
 files_client = get_files_client(authentication_user)
 create_file_request = CreateFileRequestDict(
@@ -54,7 +53,7 @@ create_course_request = CreateCourseRequestDict(
     description="Курс по языку программирования Python",
     estimatedTime="1 year",
     previewFileId=create_file_data["file"]["id"],
-    createdByUserId=create_user_data["user"]["id"],
+    createdByUserId=str(create_user_data.user.id),
 )
 create_course_data = courses_client.create_course(create_course_request)
 print("Course data: ", create_course_data)

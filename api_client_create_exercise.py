@@ -17,18 +17,16 @@ from clients.exercises.exercises_client import (
 )
 from clients.files.files_client import CreateFileRequestDict, get_files_client
 from clients.private_http_builder import AuthenticationUserSchema
-from clients.users.public_users_client import (
-    CreateUserRequestDict,
-    get_public_users_client,
-)
+from clients.users.public_users_client import get_public_users_client
+from clients.users.users_schema import CreateUserRequestSchema
 from tools.fakers import get_random_email
 
 # 1 Создать пользователя через API
 public_users_client = get_public_users_client()
 
-create_user_request = CreateUserRequestDict(
+create_user_request = CreateUserRequestSchema(
     email=get_random_email(),
-    password="string",
+    password=SecretStr("***SUPER SECRET***"),
     lastName="string",
     firstName="string",
     middleName="string",
@@ -39,7 +37,7 @@ print()
 
 # Данные пользователя для авторизации
 authentication_user = AuthenticationUserSchema(
-    email=create_user_request["email"], password=SecretStr(create_user_request["password"])
+    email=create_user_request.email, password=create_user_request.password
 )
 
 # 2 Загрузить файл-превью курса
@@ -62,7 +60,7 @@ create_course_request = CreateCourseRequestDict(
     description="Курс по фреймворку тестирования Pytest",
     estimatedTime=None,
     previewFileId=create_file_data["file"]["id"],
-    createdByUserId=create_user_data["user"]["id"],
+    createdByUserId=str(create_user_data.user.id),
 )
 create_course_data = courses_client.create_course(create_course_request)
 print("Course data: ", create_course_data)

@@ -8,7 +8,7 @@ from clients.private_http_builder import (
     AuthenticationUserSchema,
     get_private_http_client,
 )
-from clients.users.private_users_client import User
+from clients.users.users_schema import UserSchema
 
 
 class GetCoursesQueryDict(TypedDict):
@@ -53,7 +53,7 @@ class Course(TypedDict):
     description: str
     previewFile: File
     estimatedTime: str | None
-    createdByUser: User
+    createdByUser: UserSchema
 
 
 class CreateCourseResponseDict(TypedDict):

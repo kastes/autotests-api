@@ -6,6 +6,7 @@ from clients.authentication.authentication_schema import (
     LoginResponseSchema,
     RefreshRequestSchema,
 )
+from clients.clients_tools import request_with_secret_to_dict
 from clients.public_http_builder import get_public_http_client
 
 
@@ -22,9 +23,10 @@ class AuthenticationClient(APIClient):
         :type request: LoginRequestSchema
         :return: Ответ от сервера httpx.Response
         """
-        login_request_dict = request.model_dump(by_alias=True, exclude={"password"})
-        login_request_dict["password"] = request.password.get_secret_value()
-        return self.post("/api/v1/authentication/login", json=login_request_dict)
+        # request.model_dump(by_alias=True, exclude={"password"})
+        # request_dict["password"] = request.password.get_secret_value()
+        request_dict = request_with_secret_to_dict(request, secret_fields={"password"})
+        return self.post("/api/v1/authentication/login", json=request_dict)
 
     def login(self, request: LoginRequestSchema) -> LoginResponseSchema:
         """
