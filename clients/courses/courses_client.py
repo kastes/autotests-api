@@ -3,7 +3,7 @@ from typing import TypedDict
 from httpx import Response
 
 from clients.api_client import APIClient
-from clients.files.files_client import File
+from clients.files.files_schema import FileSchema
 from clients.private_http_builder import (
     AuthenticationUserSchema,
     get_private_http_client,
@@ -51,7 +51,7 @@ class Course(TypedDict):
     maxScore: int | None
     minScore: int | None
     description: str
-    previewFile: File
+    previewFile: FileSchema
     estimatedTime: str | None
     createdByUser: UserSchema
 

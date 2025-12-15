@@ -1,35 +1,11 @@
-from typing import ReadOnly, TypedDict
-
 from httpx import Response
 
 from clients.api_client import APIClient
+from clients.files.files_schema import CreateFileRequestSchema, CreateFileResponseSchema
 from clients.private_http_builder import (
     AuthenticationUserSchema,
     get_private_http_client,
 )
-
-
-class CreateFileRequestDict(TypedDict):
-    """
-    Описание структуры запроса создания файла.
-    upload_file - путь к загружаемому файлу.
-    На сервере файл будет сохранён с именем filename в directory.
-    """
-
-    filename: str
-    directory: str
-    upload_file: str
-
-
-class File(TypedDict):
-    id: str
-    filename: str
-    directory: str
-    url: ReadOnly[str]
-
-
-class CreateFileResponseDict(TypedDict):
-    file: File
 
 
 class FilesClient(APIClient):
@@ -37,30 +13,34 @@ class FilesClient(APIClient):
     Клиент для работы с API файлов /api/v1/files
     """
 
-    def create_file_api(self, request: CreateFileRequestDict) -> Response:
+    def create_file_api(self, request: CreateFileRequestSchema) -> Response:
         """
         Создать файл
 
         :param request: Данные для создания файла
-        :type request: CreateFileRequestDict
+        :type request: CreateFileRequestSchema
         :return: Ответ сервера
         :rtype: httpx.Response
         """
-        with open(request["upload_file"], "rb") as upload_file:
-            response = self.post("/api/v1/files", data=request, files={"upload_file": upload_file})
+        with open(request.upload_file, "rb") as upload_file:
+            response = self.post(
+                "/api/v1/files",
+                data=request.model_dump(by_alias=True, exclude={"upload_file"}),
+                files={"upload_file": upload_file},
+            )
         return response
 
-    def create_file(self, request: CreateFileRequestDict) -> CreateFileResponseDict:
+    def create_file(self, request: CreateFileRequestSchema) -> CreateFileResponseSchema:
         """
-        Создать файл и вернуть данные в формате CreateFileResponseDict
+        Создать файл и вернуть данные в формате CreateFileResponseSchema
 
         :param request: Данные для создания файла
-        :type request: CreateFileRequestDict
+        :type request: CreateFileRequestSchema
         :return: Данные файла
-        :rtype: CreateFileResponseDict
+        :rtype: CreateFileResponseSchema
         """
         response = self.create_file_api(request)
-        return response.json()
+        return CreateFileResponseSchema.model_validate_json(response.text)
 
     def get_file_api(self, file_id: str) -> Response:
         """

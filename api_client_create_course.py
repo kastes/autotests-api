@@ -9,7 +9,8 @@
 from pydantic import SecretStr
 
 from clients.courses.courses_client import CreateCourseRequestDict, get_courses_client
-from clients.files.files_client import CreateFileRequestDict, get_files_client
+from clients.files.files_client import get_files_client
+from clients.files.files_schema import CreateFileRequestSchema
 from clients.private_http_builder import AuthenticationUserSchema
 from clients.users.public_users_client import get_public_users_client
 from clients.users.users_schema import CreateUserRequestSchema
@@ -35,7 +36,7 @@ authentication_user = AuthenticationUserSchema(
     email=create_user_request.email, password=create_user_request.password
 )
 files_client = get_files_client(authentication_user)
-create_file_request = CreateFileRequestDict(
+create_file_request = CreateFileRequestSchema(
     filename="python-logo.jpeg",
     directory="preview-courses",
     upload_file="./testdata/files/python-logo.jpeg",
@@ -52,7 +53,7 @@ create_course_request = CreateCourseRequestDict(
     minScore=0,
     description="Курс по языку программирования Python",
     estimatedTime="1 year",
-    previewFileId=create_file_data["file"]["id"],
+    previewFileId=str(create_file_data.file.id),
     createdByUserId=str(create_user_data.user.id),
 )
 create_course_data = courses_client.create_course(create_course_request)
