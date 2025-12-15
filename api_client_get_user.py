@@ -6,7 +6,9 @@
 3. Получить его данные по /api/v1/users/{user_id}
 """
 
-from clients.private_http_builder import AuthenticationUserDict
+from pydantic import SecretStr
+
+from clients.private_http_builder import AuthenticationUserSchema
 from clients.users.private_users_client import get_private_users_client
 from clients.users.public_users_client import (
     CreateUserRequestDict,
@@ -29,8 +31,8 @@ print("User data: ", create_user_data)
 print()
 
 # 2 Авторизовать пользователя и получить клиент для доступа к закрытой части API.
-authentication_user = AuthenticationUserDict(
-    email=create_user_request["email"], password=create_user_request["password"]
+authentication_user = AuthenticationUserSchema(
+    email=create_user_request["email"], password=SecretStr(create_user_request["password"])
 )
 private_users_client = get_private_users_client(user=authentication_user)
 

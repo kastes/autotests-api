@@ -6,9 +6,11 @@
 3. Создать курс
 """
 
+from pydantic import SecretStr
+
 from clients.courses.courses_client import CreateCourseRequestDict, get_courses_client
 from clients.files.files_client import CreateFileRequestDict, get_files_client
-from clients.private_http_builder import AuthenticationUserDict
+from clients.private_http_builder import AuthenticationUserSchema
 from clients.users.public_users_client import (
     CreateUserRequestDict,
     get_public_users_client,
@@ -20,7 +22,7 @@ public_users_client = get_public_users_client()
 
 create_user_request = CreateUserRequestDict(
     email=get_random_email(),
-    password="string",
+    password="DANGER!!! SECRET!!!!",
     lastName="string",
     firstName="string",
     middleName="string",
@@ -30,8 +32,8 @@ print("User data: ", create_user_data)
 print()
 
 # 2 Загрузить файл превью курса
-authentication_user = AuthenticationUserDict(
-    email=create_user_request["email"], password=create_user_request["password"]
+authentication_user = AuthenticationUserSchema(
+    email=create_user_request["email"], password=SecretStr(create_user_request["password"])
 )
 files_client = get_files_client(authentication_user)
 create_file_request = CreateFileRequestDict(

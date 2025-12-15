@@ -3,7 +3,10 @@ from typing import TypedDict
 from httpx import Response
 
 from clients.api_client import APIClient
-from clients.private_http_builder import AuthenticationUserDict, get_private_http_client
+from clients.private_http_builder import (
+    AuthenticationUserSchema,
+    get_private_http_client,
+)
 
 
 class UpdateUserRequestDict(TypedDict):
@@ -99,13 +102,13 @@ class PrivateUsersClient(APIClient):
         return self.delete(f"/api/v1/users/{user_id}")
 
 
-def get_private_users_client(user: AuthenticationUserDict) -> PrivateUsersClient:
+def get_private_users_client(user: AuthenticationUserSchema) -> PrivateUsersClient:
     """
     Создать экземпляр PrivateUsersClient с настройками доступа к закрытой части API
       для пользователя user.
 
     :param user: Данные пользователя для аутентификации
-    :type user: AuthenticationUserDict
+    :type user: AuthenticationUserSchema
     :return: Готовый к использованию экземпляр PrivateUsersClient
     :rtype: PrivateUsersClient
     """

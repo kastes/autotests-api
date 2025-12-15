@@ -1,24 +1,21 @@
-from typing import TypedDict
-
 from httpx import Client
+from pydantic import BaseModel, EmailStr, SecretStr
 
 from clients import BASE_URL, TIMEOUT
-from clients.authentication.authentication_client import (
-    LoginRequestDict,
-    get_authentication_client,
-)
+from clients.authentication.authentication_client import get_authentication_client
+from clients.authentication.authentication_schema import LoginRequestSchema
 
 
-class AuthenticationUserDict(TypedDict):
+class AuthenticationUserSchema(BaseModel):
     """
     Описание структуры данных пользователя для аутентификации.
     """
 
-    email: str
-    password: str
+    email: EmailStr
+    password: SecretStr
 
 
-def get_private_http_client(user: AuthenticationUserDict) -> Client:
+def get_private_http_client(user: AuthenticationUserSchema) -> Client:
     """
     Получить экземпляр httpx.Client с настройками для запросов к закрытой части API.
 
@@ -28,7 +25,7 @@ def get_private_http_client(user: AuthenticationUserDict) -> Client:
     :rtype: httpx.Client
     """
     authentication_client = get_authentication_client()
-    login_request = LoginRequestDict(email=user["email"], password=user["password"])
+    login_request = LoginRequestSchema(email=user.email, password=user.password)
     token_data = authentication_client.login(login_request)
-    headers = {"Authorization": f"Bearer {token_data['token']['accessToken']}"}
+    headers = {"Authorization": f"Bearer {token_data.token.access_token}"}
     return Client(timeout=TIMEOUT, base_url=BASE_URL, headers=headers)

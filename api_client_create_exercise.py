@@ -7,6 +7,8 @@
 4. Создать упражнение
 """
 
+from pydantic import SecretStr
+
 from clients.courses.courses_client import CreateCourseRequestDict, get_courses_client
 from clients.exercises.exercises_client import (
     CreateExerciseRequestDict,
@@ -14,7 +16,7 @@ from clients.exercises.exercises_client import (
     get_exercises_client,
 )
 from clients.files.files_client import CreateFileRequestDict, get_files_client
-from clients.private_http_builder import AuthenticationUserDict
+from clients.private_http_builder import AuthenticationUserSchema
 from clients.users.public_users_client import (
     CreateUserRequestDict,
     get_public_users_client,
@@ -36,8 +38,8 @@ print("User data: ", create_user_data)
 print()
 
 # Данные пользователя для авторизации
-authentication_user = AuthenticationUserDict(
-    email=create_user_request["email"], password=create_user_request["password"]
+authentication_user = AuthenticationUserSchema(
+    email=create_user_request["email"], password=SecretStr(create_user_request["password"])
 )
 
 # 2 Загрузить файл-превью курса
