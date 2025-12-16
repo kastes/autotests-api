@@ -9,7 +9,8 @@
 
 from pydantic import SecretStr
 
-from clients.courses.courses_client import CreateCourseRequestDict, get_courses_client
+from clients.courses.courses_client import get_courses_client
+from clients.courses.courses_schema import CreateCourseRequestSchema
 from clients.exercises.exercises_client import (
     CreateExerciseRequestDict,
     GetExercisesQueryDict,
@@ -54,14 +55,14 @@ print()
 
 # 3 Создать курс
 courses_client = get_courses_client(authentication_user)
-create_course_request = CreateCourseRequestDict(
+create_course_request = CreateCourseRequestSchema(
     title="Pytest",
     maxScore=1000,
     minScore=0,
     description="Курс по фреймворку тестирования Pytest",
-    estimatedTime=None,
-    previewFileId=str(create_file_data.file.id),
-    createdByUserId=str(create_user_data.user.id),
+    # estimatedTime=?, пропущено необязательное поле
+    previewFileId=create_file_data.file.id,
+    createdByUserId=create_user_data.user.id,
 )
 create_course_data = courses_client.create_course(create_course_request)
 print("Course data: ", create_course_data)
@@ -71,7 +72,7 @@ print()
 exercises_client = get_exercises_client(authentication_user)
 create_exercise_request = CreateExerciseRequestDict(
     title="Упражнение 1",
-    courseId=create_course_data["course"]["id"],
+    courseId=str(create_course_data.course.id),
     maxScore=1,
     minScore=0,
     orderIndex=0,
@@ -84,7 +85,7 @@ print()
 
 create_exercise_request = CreateExerciseRequestDict(
     title="Упражнение 2",
-    courseId=create_course_data["course"]["id"],
+    courseId=str(create_course_data.course.id),
     maxScore=1,
     minScore=0,
     orderIndex=1,
@@ -96,7 +97,7 @@ print("Exercise data: ", create_exercise_data)
 print()
 
 # 5 Получить список всех упражнений курса
-get_exercises_query = GetExercisesQueryDict(courseId=create_course_data["course"]["id"])
+get_exercises_query = GetExercisesQueryDict(courseId=str(create_course_data.course.id))
 get_exercises_data = exercises_client.get_exercises(get_exercises_query)
 print("List exercises: ", get_exercises_data)
 print()

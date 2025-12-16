@@ -8,7 +8,8 @@
 
 from pydantic import SecretStr
 
-from clients.courses.courses_client import CreateCourseRequestDict, get_courses_client
+from clients.courses.courses_client import get_courses_client
+from clients.courses.courses_schema import CreateCourseRequestSchema
 from clients.files.files_client import get_files_client
 from clients.files.files_schema import CreateFileRequestSchema
 from clients.private_http_builder import AuthenticationUserSchema
@@ -47,14 +48,14 @@ print()
 
 # 3 Создать курс
 courses_client = get_courses_client(authentication_user)
-create_course_request = CreateCourseRequestDict(
+create_course_request = CreateCourseRequestSchema(
     title="Python",
     maxScore=1000,
     minScore=0,
     description="Курс по языку программирования Python",
     estimatedTime="1 year",
-    previewFileId=str(create_file_data.file.id),
-    createdByUserId=str(create_user_data.user.id),
+    previewFileId=create_file_data.file.id,
+    createdByUserId=create_user_data.user.id,
 )
 create_course_data = courses_client.create_course(create_course_request)
 print("Course data: ", create_course_data)

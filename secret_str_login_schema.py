@@ -7,6 +7,7 @@ import uuid
 from pydantic import SecretStr
 
 from clients.authentication.authentication_schema import LoginRequestSchema
+from clients.courses.courses_schema import UpdateCourseRequestSchema
 from clients.users.users_schema import UserSchema
 
 login_schema = LoginRequestSchema(email="user@mail.com", password=SecretStr("password"))
@@ -43,3 +44,14 @@ print(f"{user.model_dump()=}")
 print(f"{user.model_dump_json()=}")
 print(f"{user.id=}")
 print(f"{str(user.id)=}")
+print(f"{user.model_dump(mode='json')=}")
+print()
+
+
+update_request = UpdateCourseRequestSchema(title="title")
+print(f"{update_request=}")
+print(f"{update_request.model_dump()=}")
+print(f"{update_request.model_dump(mode='json')=}")
+print(f"{update_request.model_dump_json()=}")
+print(f"{update_request.model_dump(mode='json')=}")
+print()

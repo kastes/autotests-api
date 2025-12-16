@@ -23,8 +23,8 @@ class FileSchema(BaseModel):
     """
 
     id: UUID4
-    filename: Annotated[str, StringConstraints(min_length=1, max_length=250)]
-    directory: Annotated[str, StringConstraints(min_length=0, max_length=250)]
+    filename: Annotated[str, StringConstraints(max_length=250)]
+    directory: Annotated[str, StringConstraints(max_length=250)]
     url: Annotated[HttpUrl, UrlConstraints(max_length=2083)] = Field(frozen=True)
 
 

@@ -92,19 +92,19 @@ class UpdateUserRequestSchema(BaseModel):
     email: (
         Annotated[EmailStr, StringConstraints(strip_whitespace=True, min_length=1, max_length=250)]
         | None
-    )
+    ) = Field(default=None)
 
     last_name: (
         Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=50)] | None
-    ) = Field(alias="lastName")
+    ) = Field(default=None, alias="lastName")
 
     first_name: (
         Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=50)] | None
-    ) = Field(alias="firstName")
+    ) = Field(default=None, alias="firstName")
 
     middle_name: (
         Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=50)] | None
-    ) = Field(alias="middleName")
+    ) = Field(default=None, alias="middleName")
 
 
 class UpdateUserResponseSchema(BaseModel):
