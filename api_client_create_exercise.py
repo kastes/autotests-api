@@ -11,10 +11,10 @@ from pydantic import SecretStr
 
 from clients.courses.courses_client import get_courses_client
 from clients.courses.courses_schema import CreateCourseRequestSchema
-from clients.exercises.exercises_client import (
-    CreateExerciseRequestDict,
-    GetExercisesQueryDict,
-    get_exercises_client,
+from clients.exercises.exercises_client import get_exercises_client
+from clients.exercises.exercises_schema import (
+    CreateExerciseRequestSchema,
+    GetExercisesQuerySchema,
 )
 from clients.files.files_client import get_files_client
 from clients.files.files_schema import CreateFileRequestSchema
@@ -70,22 +70,22 @@ print()
 
 # 4 Создать упражнение (2 штуки)
 exercises_client = get_exercises_client(authentication_user)
-create_exercise_request = CreateExerciseRequestDict(
+create_exercise_request = CreateExerciseRequestSchema(
     title="Упражнение 1",
-    courseId=str(create_course_data.course.id),
+    courseId=create_course_data.course.id,
     maxScore=1,
     minScore=0,
     orderIndex=0,
     description="Первое упражнение курса.",
-    estimatedTime=None,
+    # estimatedTime=None,
 )
 create_exercise_data = exercises_client.create_exercise(create_exercise_request)
 print("Exercise data: ", create_exercise_data)
 print()
 
-create_exercise_request = CreateExerciseRequestDict(
+create_exercise_request = CreateExerciseRequestSchema(
     title="Упражнение 2",
-    courseId=str(create_course_data.course.id),
+    courseId=create_course_data.course.id,
     maxScore=1,
     minScore=0,
     orderIndex=1,
@@ -97,7 +97,7 @@ print("Exercise data: ", create_exercise_data)
 print()
 
 # 5 Получить список всех упражнений курса
-get_exercises_query = GetExercisesQueryDict(courseId=str(create_course_data.course.id))
+get_exercises_query = GetExercisesQuerySchema(courseId=create_course_data.course.id)
 get_exercises_data = exercises_client.get_exercises(get_exercises_query)
 print("List exercises: ", get_exercises_data)
 print()
