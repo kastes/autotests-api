@@ -15,13 +15,13 @@ from clients.files.files_schema import CreateFileRequestSchema
 from clients.private_http_builder import AuthenticationUserSchema
 from clients.users.public_users_client import get_public_users_client
 from clients.users.users_schema import CreateUserRequestSchema
-from tools.fakers import get_random_email
+from tools.fakers import fake
 
 # 1 Создать пользователя через API
 public_users_client = get_public_users_client()
 
 create_user_request = CreateUserRequestSchema(
-    email=get_random_email(),
+    email=fake.email(),
     password=SecretStr("DANGER!!! SECRET!!!!"),
     # mypy странно видит alias-ы. xxxx_name выдаёт предупреждение :(
     last_name="string",  # type: ignore
