@@ -7,8 +7,6 @@
 4. Создать упражнение
 """
 
-from pydantic import SecretStr
-
 from clients.courses.courses_client import get_courses_client
 from clients.courses.courses_schema import CreateCourseRequestSchema
 from clients.exercises.exercises_client import get_exercises_client
@@ -21,18 +19,11 @@ from clients.files.files_schema import CreateFileRequestSchema
 from clients.private_http_builder import AuthenticationUserSchema
 from clients.users.public_users_client import get_public_users_client
 from clients.users.users_schema import CreateUserRequestSchema
-from tools.fakers import fake
 
 # 1 Создать пользователя через API
 public_users_client = get_public_users_client()
 
-create_user_request = CreateUserRequestSchema(
-    email=fake.email(),
-    password=SecretStr("***SUPER SECRET***"),
-    lastName="string",
-    firstName="string",
-    middleName="string",
-)
+create_user_request = CreateUserRequestSchema()
 create_user_data = public_users_client.create_user(create_user_request)
 print("User data: ", create_user_data)
 print()
@@ -44,11 +35,7 @@ authentication_user = AuthenticationUserSchema(
 
 # 2 Загрузить файл-превью курса
 files_client = get_files_client(authentication_user)
-create_file_request = CreateFileRequestSchema(
-    filename="pytest-logo.png",
-    directory="preview-courses",
-    upload_file="./testdata/files/pytest-logo.png",
-)
+create_file_request = CreateFileRequestSchema(upload_file="./testdata/files/pytest-logo.png")
 create_file_data = files_client.create_file(create_file_request)
 print("File data: ", create_file_data)
 print()
@@ -56,13 +43,8 @@ print()
 # 3 Создать курс
 courses_client = get_courses_client(authentication_user)
 create_course_request = CreateCourseRequestSchema(
-    title="Pytest",
-    maxScore=1000,
-    minScore=0,
-    description="Курс по фреймворку тестирования Pytest",
-    # estimatedTime=?, пропущено необязательное поле
-    previewFileId=create_file_data.file.id,
-    createdByUserId=create_user_data.user.id,
+    previewFileId=create_file_data.file.id,  # mypy упорно требует алиас :(
+    createdByUserId=create_user_data.user.id,  # mypy упорно требует алиас :(
 )
 create_course_data = courses_client.create_course(create_course_request)
 print("Course data: ", create_course_data)
@@ -71,26 +53,14 @@ print()
 # 4 Создать упражнение (2 штуки)
 exercises_client = get_exercises_client(authentication_user)
 create_exercise_request = CreateExerciseRequestSchema(
-    title="Упражнение 1",
-    courseId=create_course_data.course.id,
-    maxScore=1,
-    minScore=0,
-    orderIndex=0,
-    description="Первое упражнение курса.",
-    # estimatedTime=None,
+    courseId=create_course_data.course.id, estimatedTime=None
 )
 create_exercise_data = exercises_client.create_exercise(create_exercise_request)
 print("Exercise data: ", create_exercise_data)
 print()
 
 create_exercise_request = CreateExerciseRequestSchema(
-    title="Упражнение 2",
-    courseId=create_course_data.course.id,
-    maxScore=1,
-    minScore=0,
-    orderIndex=1,
-    description="Второе упражнение курса.",
-    estimatedTime="1 moment",
+    course_id=create_course_data.course.id  # type: ignore # mypy упорно требует алиас :(
 )
 create_exercise_data = exercises_client.create_exercise(create_exercise_request)
 print("Exercise data: ", create_exercise_data)
