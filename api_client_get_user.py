@@ -6,25 +6,15 @@
 3. Получить его данные по /api/v1/users/{user_id}
 """
 
-from pydantic import SecretStr
-
 from clients.private_http_builder import AuthenticationUserSchema
 from clients.users.private_users_client import get_private_users_client
 from clients.users.public_users_client import get_public_users_client
 from clients.users.users_schema import CreateUserRequestSchema
-from tools.fakers import fake
 
 # 1 Создать пользователя через API
 public_users_client = get_public_users_client()
 
-create_user_request = CreateUserRequestSchema(
-    email=fake.email(),
-    password=SecretStr("!!! TOP SECRET !!!"),
-    # mypy странно видит alias-ы. xxxx_name выдаёт предупреждение :(
-    last_name="string",  # type: ignore
-    first_name="string",
-    middle_name="string",
-)
+create_user_request = CreateUserRequestSchema()
 create_user_data = public_users_client.create_user(create_user_request)
 print("User data: ", create_user_data)
 print()

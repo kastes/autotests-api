@@ -10,6 +10,8 @@ from pydantic import (
     StringConstraints,
 )
 
+from tools.fakers import fake
+
 
 class UserSchema(BaseModel):
     """
@@ -48,21 +50,23 @@ class CreateUserRequestSchema(BaseModel):
 
     email: Annotated[
         EmailStr, StringConstraints(strip_whitespace=True, min_length=1, max_length=250)
-    ]
+    ] = Field(default_factory=fake.email)
 
-    password: Annotated[SecretStr, StringConstraints(min_length=1, max_length=250)]
+    password: Annotated[SecretStr, StringConstraints(min_length=1, max_length=250)] = Field(
+        default_factory=lambda: SecretStr(fake.password())
+    )
 
     last_name: Annotated[
         str, StringConstraints(strip_whitespace=True, min_length=1, max_length=50)
-    ] = Field(alias="lastName")
+    ] = Field(alias="lastName", default_factory=fake.last_name)
 
     first_name: Annotated[
         str, StringConstraints(strip_whitespace=True, min_length=1, max_length=50)
-    ] = Field(alias="firstName")
+    ] = Field(alias="firstName", default_factory=fake.first_name)
 
     middle_name: Annotated[
         str, StringConstraints(strip_whitespace=True, min_length=1, max_length=50)
-    ] = Field(alias="middleName")
+    ] = Field(alias="middleName", default_factory=fake.middle_name)
 
 
 class CreateUserResponseSchema(BaseModel):

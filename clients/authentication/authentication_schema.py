@@ -1,13 +1,15 @@
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, SecretStr
 
+from tools.fakers import fake
+
 
 class LoginRequestSchema(BaseModel):
     """
     Описание структуры запроса аутентификации.
     """
 
-    email: EmailStr
-    password: SecretStr
+    email: EmailStr = Field(default_factory=fake.email)
+    password: SecretStr = Field(default_factory=lambda: SecretStr(fake.password()))
 
 
 class TokenSchema(BaseModel):
@@ -37,4 +39,4 @@ class RefreshRequestSchema(BaseModel):
 
     model_config = ConfigDict(validate_by_name=True, validate_by_alias=True)
 
-    refresh_token: str = Field(alias="refreshToken")
+    refresh_token: str = Field(alias="refreshToken", default_factory=fake.sentence)

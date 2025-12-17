@@ -4,6 +4,7 @@ from pydantic import UUID4, BaseModel, ConfigDict, Field, StringConstraints
 
 from clients.files.files_schema import FileSchema
 from clients.users.users_schema import UserSchema
+from tools.fakers import fake
 
 
 class GetCoursesQuerySchema(BaseModel):
@@ -23,15 +24,19 @@ class CreateCourseRequestSchema(BaseModel):
 
     model_config = ConfigDict(validate_by_name=True, validate_by_alias=True)
 
-    title: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=250)]
-    max_score: int | None = Field(default=None, alias="maxScore")
-    min_score: int | None = Field(default=None, alias="minScore")
-    description: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
-    estimated_time: Annotated[str, StringConstraints(min_length=1, max_length=50)] | None = Field(
-        default=None, alias="estimatedTime"
+    title: Annotated[
+        str, StringConstraints(strip_whitespace=True, min_length=1, max_length=250)
+    ] = Field(default_factory=fake.sentence)
+    max_score: int | None = Field(default_factory=fake.max_score, alias="maxScore")
+    min_score: int | None = Field(default_factory=fake.min_score, alias="minScore")
+    description: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)] = Field(
+        default_factory=fake.text
     )
-    preview_file_id: UUID4 = Field(alias="previewFileId")
-    created_by_user_id: UUID4 = Field(alias="createdByUserId")
+    estimated_time: Annotated[str, StringConstraints(min_length=1, max_length=50)] | None = Field(
+        default_factory=fake.estimated_time, alias="estimatedTime"
+    )
+    preview_file_id: UUID4 = Field(default_factory=fake.uuid4, alias="previewFileId")
+    created_by_user_id: UUID4 = Field(default_factory=fake.uuid4, alias="createdByUserId")
 
 
 class UpdateCourseRequestSchema(BaseModel):
