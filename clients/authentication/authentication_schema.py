@@ -19,7 +19,7 @@ class TokenSchema(BaseModel):
 
     model_config = ConfigDict(validate_by_name=True, validate_by_alias=True)
 
-    token_type: str = Field(default="bearer", alias="tokenType")
+    token_type: str = Field(alias="tokenType")
     access_token: str = Field(alias="accessToken")
     refresh_token: str = Field(alias="refreshToken")
 
