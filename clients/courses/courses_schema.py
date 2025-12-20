@@ -69,12 +69,12 @@ class CourseSchema(BaseModel):
 
     id: UUID4
     title: Annotated[str, StringConstraints(strip_whitespace=True, max_length=250)]
-    max_score: int | None = Field(default=None, alias="maxScore")
-    min_score: int | None = Field(default=None, alias="minScore")
+    max_score: int | None = Field(alias="maxScore")
+    min_score: int | None = Field(alias="minScore")
     description: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
     preview_file: FileSchema = Field(alias="previewFile")
     estimated_time: Annotated[str, StringConstraints(min_length=1, max_length=50)] | None = Field(
-        default=None, alias="estimatedTime"
+        alias="estimatedTime"
     )
     created_by_user: UserSchema = Field(alias="createdByUser")
 

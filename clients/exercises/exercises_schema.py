@@ -69,12 +69,12 @@ class ExerciseSchema(BaseModel):
     id: UUID4
     title: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=250)]
     course_id: UUID4 = Field(alias="courseId")
-    max_score: int | None = Field(default=None, alias="maxScore")
-    min_score: int | None = Field(default=None, alias="minScore")
+    max_score: int | None = Field(alias="maxScore")
+    min_score: int | None = Field(alias="minScore")
     order_index: int = Field(alias="orderIndex")
     description: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
     estimated_time: Annotated[str, StringConstraints(min_length=1, max_length=50)] | None = Field(
-        default=None, alias="estimatedTime"
+        alias="estimatedTime"
     )
 
 
