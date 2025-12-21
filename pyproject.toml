@@ -26,6 +26,24 @@ dev = [
 [tool.poetry]
 package-mode = false
 
+[tool.pytest]
+minversion = "9.0"
+addopts = ["-v", "-s"]
+testpaths = [
+    "tests",
+]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+  "slow: маркирует тесты как медленные (slow)",
+  "smoke: маркирует тесты как smoke (smoke)",
+  "regression: маркирует тесты как регресионные (regression)",
+  "users: маркирует тесты функциональности пользователей (users)",
+  "authentication: маркирует тесты функциональности аутентификации (authentication)",
+  
+]
+
 [tool.mypy]
 python_version = "3.14"
 # регулярные выражения
