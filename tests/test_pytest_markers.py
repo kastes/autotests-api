@@ -1,5 +1,7 @@
 import pytest
 
+pytestmark = pytest.mark.skip("Пропустить примеры маркеров.")
+
 
 @pytest.mark.smoke
 class TestLogin:

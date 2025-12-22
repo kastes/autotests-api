@@ -1,5 +1,7 @@
 import pytest
 
+pytestmark = pytest.mark.skip("Пропустить примеры тестов.")
+
 
 def test_pytest_first() -> None:
     pass
