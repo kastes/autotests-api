@@ -16,16 +16,18 @@ from tools.assertions.users import (
     assert_create_user_response,
     assert_get_user_response,
 )
+from tools.fakers import fake
 
 
 @pytest.mark.users
 @pytest.mark.regression
-def test_create_user(public_users_client: PublicUsersClient) -> None:
+@pytest.mark.parametrize("domain", ("mail.ru", "gmail.com", "example.com"))
+def test_create_user(domain: str, public_users_client: PublicUsersClient) -> None:
     """
     Тест сценария 'создать пользователя'
     """
     # Формируем тело запроса на создание пользователя
-    request = CreateUserRequestSchema()
+    request = CreateUserRequestSchema(email=fake.email(domain=domain))
     # Отправляем запрос на создание пользователя
     response = public_users_client.create_user_api(request)
 

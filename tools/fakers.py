@@ -13,7 +13,7 @@ class Fake:
         Инициализация
 
         Args:
-            faker (Faker): экземляр класса aker
+            faker (Faker): экземляр класса Faker
         """
         self._faker = faker
 
@@ -39,12 +39,15 @@ class Fake:
         """
         return self._faker.uuid4()
 
-    def email(self) -> str:
+    def email(self, domain: str | None = None) -> str:
         """
+        Args:
+            domain (str | None): домен электронной почты, если указан.
+
         Returns:
             str: случайный email
         """
-        return self._faker.email()
+        return self._faker.email(domain=domain)
 
     def sentence(self) -> str:
         """
