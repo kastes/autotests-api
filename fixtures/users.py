@@ -1,10 +1,6 @@
 import pytest
 from pydantic import BaseModel, EmailStr, SecretStr
 
-from clients.authentication.authentication_client import (
-    AuthenticationClient,
-    get_authentication_client,
-)
 from clients.private_http_builder import AuthenticationUserSchema
 from clients.users.private_users_client import (
     PrivateUsersClient,
@@ -76,14 +72,3 @@ def private_users_client(function_user: UserFixture) -> PrivateUsersClient:
         PrivateUsersClient: клиент доступа к закрытой части API /api/v1/users
     """
     return get_private_users_client(function_user.authentication_user)
-
-
-@pytest.fixture
-def authentication_client() -> AuthenticationClient:
-    """
-    Фикстура создаёт клиента работы с API аутентификации /api/v1/authentication.
-
-    Returns:
-        AuthenticationClient: клиент работы с API аутентификации /api/v1/authentication.
-    """
-    return get_authentication_client()
