@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from httpx import Client
 from pydantic import BaseModel, EmailStr, SecretStr
 
@@ -6,7 +8,7 @@ from clients.authentication.authentication_client import get_authentication_clie
 from clients.authentication.authentication_schema import LoginRequestSchema
 
 
-class AuthenticationUserSchema(BaseModel):
+class AuthenticationUserSchema(BaseModel, frozen=True):
     """
     Описание структуры данных пользователя для аутентификации.
     """
@@ -15,6 +17,7 @@ class AuthenticationUserSchema(BaseModel):
     password: SecretStr
 
 
+@lru_cache
 def get_private_http_client(user: AuthenticationUserSchema) -> Client:
     """
     Получить экземпляр httpx.Client с настройками для запросов к закрытой части API.
