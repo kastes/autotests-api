@@ -1,4 +1,5 @@
 from httpx import Response
+from pydantic import UUID4
 
 from clients.api_client import APIClient
 from clients.files.files_schema import CreateFileRequestSchema, CreateFileResponseSchema
@@ -42,7 +43,7 @@ class FilesClient(APIClient):
         response = self.create_file_api(request)
         return CreateFileResponseSchema.model_validate_json(response.text)
 
-    def get_file_api(self, file_id: str) -> Response:
+    def get_file_api(self, file_id: UUID4) -> Response:
         """
         Получить файл с идентификатором file_id
 
@@ -53,7 +54,7 @@ class FilesClient(APIClient):
         """
         return self.get(f"/api/v1/files/{file_id}")
 
-    def delete_file_api(self, file_id: str) -> Response:
+    def delete_file_api(self, file_id: UUID4) -> Response:
         """
         Удалить файл с идентификатором file_id
 
