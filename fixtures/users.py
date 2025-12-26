@@ -12,7 +12,7 @@ from clients.users.users_schema import CreateUserRequestSchema, CreateUserRespon
 
 class UserFixture(BaseModel):
     """
-    Схема данных запроса и ответа сценария 'создать пользователя'.
+    Данные запроса и ответа сценария 'создать пользователя'.
     """
 
     request: CreateUserRequestSchema
