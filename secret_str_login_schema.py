@@ -37,7 +37,7 @@ print()
 
 
 user = UserSchema(
-    id=uuid.uuid4(), email="user@mail.com", lastName="C", firstName="J", middleName="F"
+    id=uuid.uuid4(), email="user@mail.com", last_name="C", first_name="J", middle_name="F"
 )
 print(f"{user=}")
 print(f"{user.model_dump()=}")

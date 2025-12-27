@@ -75,7 +75,7 @@ if __name__ == "__main__":
     import uuid
 
     user = UserSchema(
-        id=uuid.uuid4(), email="user@mail.com", lastName="Doe", firstName="John", middleName="F"
+        id=uuid.uuid4(), email="user@mail.com", last_name="Doe", first_name="John", middle_name="F"
     )
     print(f"{user=}")
     print()
@@ -83,9 +83,9 @@ if __name__ == "__main__":
     create_user_request = CreateUserRequestSchema(
         password=SecretStr("secret"),
         email="user@mail.com",
-        lastName="Doe",
-        firstName="John",
-        middleName="F",
+        last_name="Doe",
+        first_name="John",
+        middle_name="F",
     )
     print(f"{create_user_request=}")
     print()

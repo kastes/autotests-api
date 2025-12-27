@@ -88,7 +88,8 @@ print(f"{course=}")
 print()
 
 try:
-    course.preview_file.url = HttpUrl("http://localhost:8000/new_url")
+    # попытка изменить frozen-поле!!
+    course.preview_file.url = HttpUrl("http://localhost:8000/new_url")  # type: ignore
 except ValidationError as e:
     print("Попытка записать в read only атрибут.")
     print(f"{e.errors()=}")

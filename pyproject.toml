@@ -21,7 +21,8 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "types-jsonschema (>=4.25.1.20251009,<5.0.0.0)"
+    "types-jsonschema (>=4.25.1.20251009,<5.0.0.0)",
+    "mypy (>=1.19.1,<2.0.0)"
 ]
 
 [tool.poetry]
@@ -51,6 +52,9 @@ python_version = "3.14"
 exclude = ["bad_mypy.py",
            "migrations",
            "examples/grpc"]
+plugins = [
+  "pydantic.mypy"
+]
 
 [tool.black]
 # Эти настройки работают из pyproject.toml, а line-length не работает

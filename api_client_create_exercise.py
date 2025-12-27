@@ -43,7 +43,7 @@ print()
 # 3 Создать курс
 courses_client = get_courses_client(authentication_user)
 create_course_request = CreateCourseRequestSchema(
-    previewFileId=create_file_data.file.id,  # mypy упорно требует алиас :(
+    preview_file_id=create_file_data.file.id,  # mypy упорно требует алиас :(
     createdByUserId=create_user_data.user.id,  # mypy упорно требует алиас :(
 )
 create_course_data = courses_client.create_course(create_course_request)
@@ -67,7 +67,7 @@ print("Exercise data: ", create_exercise_data)
 print()
 
 # 5 Получить список всех упражнений курса
-get_exercises_query = GetExercisesQuerySchema(courseId=create_course_data.course.id)
+get_exercises_query = GetExercisesQuerySchema(course_id=create_course_data.course.id)
 get_exercises_data = exercises_client.get_exercises(get_exercises_query)
 print("List exercises: ", get_exercises_data)
 print()
