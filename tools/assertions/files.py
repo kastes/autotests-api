@@ -1,5 +1,9 @@
 from clients import BASE_URL
-from clients.errors_schema import ValidationErrorResponseSchema, ValidationErrorSchema
+from clients.errors_schema import (
+    InternalErrorResponseSchema,
+    ValidationErrorResponseSchema,
+    ValidationErrorSchema,
+)
 from clients.files.files_schema import (
     CreateFileRequestSchema,
     CreateFileResponseSchema,
@@ -7,7 +11,10 @@ from clients.files.files_schema import (
     GetFileResponseSchema,
 )
 from tools.assertions.base import assert_equal, assert_is_true
-from tools.assertions.errors import assert_validation_error_response
+from tools.assertions.errors import (
+    assert_internal_error_response,
+    assert_validation_error_response,
+)
 
 
 def assert_create_file_response(
@@ -55,8 +62,8 @@ def assert_get_file_response(
     Проверить данные ответа 'получить файл' на соответствие ожидаемым.
 
     Args:
-        actual (GetFileResponseSchema): данныет ответа 'получить файл'
-        expected (CreateFileResponseSchema): данные ответа 'создать файл'
+        actual (GetFileResponseSchema): фактические данные ответа 'получить файл'
+        expected (CreateFileResponseSchema): фактические данные ответа 'создать файл'
 
     Raises:
         AssertionError: если данные ответа не соответствуют ожидаемым.
@@ -144,3 +151,16 @@ def assert_create_file_with_empty_directory_and_filename_response(
     )
 
     assert_validation_error_response(actual=actual, expected=expected_response)
+
+
+def assert_file_not_found_response(actual: InternalErrorResponseSchema) -> None:
+    """
+    Проверить данные ответа 'файл не найден на сервере'
+
+    Args:
+        actual (InternalErrorResponseSchema): фактические данные ответа
+    Raises:
+        AssertionError: если данные ответа не соответствуют ожидаемым "File not found"
+    """
+    expected = InternalErrorResponseSchema(details="File not found")
+    assert_internal_error_response(actual, expected)

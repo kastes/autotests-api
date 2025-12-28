@@ -1,4 +1,8 @@
-from clients.errors_schema import ValidationErrorResponseSchema, ValidationErrorSchema
+from clients.errors_schema import (
+    InternalErrorResponseSchema,
+    ValidationErrorResponseSchema,
+    ValidationErrorSchema,
+)
 from tools.assertions.base import assert_equal, assert_length
 
 
@@ -33,3 +37,18 @@ def assert_validation_error_response(
 
     for index, detail in enumerate(expected.details):
         assert_validation_error(actual.details[index], detail)
+
+
+def assert_internal_error_response(
+    actual: InternalErrorResponseSchema, expected: InternalErrorResponseSchema
+) -> None:
+    """
+    Проверить внутреннею ошибку. Например 404 Not found, ...
+
+    Args:
+        actual (InternalErrorResponseSchema): фактический ответ API
+        expected (InternalErrorResponseSchema): ожидаемый ответ API
+    Raises:
+        AssertionError: если фактический ответ не соответствует ожидаемому
+    """
+    assert_equal(actual.details, expected.details, "details")

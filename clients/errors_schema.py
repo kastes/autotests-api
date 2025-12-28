@@ -25,3 +25,13 @@ class ValidationErrorResponseSchema(BaseModel):
     model_config = ConfigDict(validate_by_name=True, validate_by_alias=True)
 
     details: list[ValidationErrorSchema] = Field(alias="detail")
+
+
+class InternalErrorResponseSchema(BaseModel):
+    """
+    Описание структуры ответа внутренней ошибки
+    """
+
+    model_config = ConfigDict(validate_by_name=True, validate_by_alias=True)
+
+    details: str = Field(alias="detail")

@@ -42,3 +42,16 @@ curl -X 'POST' 'http://localhost:8000/api/v1/files' \
 -F 'directory=' \
 -F 'filename=' \
 -F 'upload_file=@testdata/files/bart.png;type=image/png'
+
+удалить файл
+curl -X 'DELETE' \
+  'http://localhost:8000/api/v1/files/2a8136ce-6aee-4887-bd56-555880b9176e' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTEyLTI4VDE4OjMxOjQ4LjE5NDQ5MSIsInVzZXJfaWQiOiIyZjM2NDBiYy1jZjRkLTRjOGYtYTViMS1lN2M5NTg0ZGY0OWEifQ.n_OfGrX-ripATCoyE6K_Qb1rXeqcGwu9iwqZ2dLd50c'
+
+получить файл
+curl -X 'GET' \
+  'http://localhost:8000/api/v1/files/<Valid File Id>' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer <Valid Access Token>'
+  
