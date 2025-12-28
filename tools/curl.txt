@@ -1,0 +1,44 @@
+вход (login) пользователя с учётными данными
+curl -X 'POST' \
+  'http://localhost:8000/api/v1/authentication/login' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "email": "user@example.com",
+  "password": "string"
+}'
+
+создать файл с пустым именем файла
+curl -X 'POST' 'http://localhost:8000/api/v1/files' \
+-H 'accept: application/json' \
+-H 'Content-Type: multipart/form-data' \
+-H 'Authorization: Bearer <Valid Access Token>' \
+-F 'directory=string' \
+-F 'filename=' \
+-F 'upload_file=@testdata/files/bart.png;type=image/png'
+
+создать файл с пропущенным полем имя файла и пустым именем каталога
+curl -X 'POST' 'http://localhost:8000/api/v1/files' \
+-H 'accept: application/json' \
+-H 'Content-Type: multipart/form-data' \
+-H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTEyLTI4VDExOjIzOjE2LjEzMzc3MyIsInVzZXJfaWQiOiIyZjM2NDBiYy1jZjRkLTRjOGYtYTViMS1lN2M5NTg0ZGY0OWEifQ.NMOkiqZHWf9-EP-Z5lYPt1EvRq3COAjssK8RHWMNVCY' \
+-F 'directory=' \
+-F 'upload_file=@testdata/files/bart.png;type=image/png'
+
+создать файл с пустым именем каталога
+curl -X 'POST' 'http://localhost:8000/api/v1/files' \
+-H 'accept: application/json' \
+-H 'Content-Type: multipart/form-data' \
+-H 'Authorization: Bearer <Valid Access Token>' \
+-F 'directory=' \
+-F 'filename=string' \
+-F 'upload_file=@testdata/files/bart.png;type=image/png'
+
+создать файл с пустым именем каталога и файла
+curl -X 'POST' 'http://localhost:8000/api/v1/files' \
+-H 'accept: application/json' \
+-H 'Content-Type: multipart/form-data' \
+-H 'Authorization: Bearer <Valid Access Token>' \
+-F 'directory=' \
+-F 'filename=' \
+-F 'upload_file=@testdata/files/bart.png;type=image/png'

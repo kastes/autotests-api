@@ -2,7 +2,7 @@
 Базовые проверки
 """
 
-from typing import Any
+from typing import Any, Sized
 
 
 def assert_status_code(actual: int, expected: int) -> None:
@@ -34,10 +34,28 @@ def assert_equal(actual: Any, expected: Any, name: str) -> None:
 def assert_is_true(actual: Any, name: str) -> None:
     """
     Проверить значение на истинность
-
     Args:
         actual (Any): Значение для проверки
         name (str): Имя
-    Raises AssertionError: если значение не приводится к True
+    Raises:
+        AssertionError: если значение не приводится к True
     """
     assert actual, f"Имя: {name}. Ожидался: {True}. Получен {actual}"
+
+
+def assert_length(actual: Sized, expected: Sized, name: str) -> None:
+    """
+    Проверить объекты на равенство длины
+
+    :param actual: фактический объект
+    :type actual: Sized
+    :param expected: ожидаемый объект
+    :type expected: Sized
+    :param name: имя объекта
+    :type name: str
+    :raises AssertionError: если длины объектов не совпадают
+    """
+    assert len(actual) == len(expected), (
+        f"Имя: {name}. Длины ожидаемого и полученного объектов не совпадают. "
+        f"Ожидалось: {len(expected)}. Получено: {len(actual)}"
+    )

@@ -1,4 +1,5 @@
 from clients import BASE_URL
+from clients.errors_schema import ValidationErrorResponseSchema, ValidationErrorSchema
 from clients.files.files_schema import (
     CreateFileRequestSchema,
     CreateFileResponseSchema,
@@ -6,11 +7,12 @@ from clients.files.files_schema import (
     GetFileResponseSchema,
 )
 from tools.assertions.base import assert_equal, assert_is_true
+from tools.assertions.errors import assert_validation_error_response
 
 
 def assert_create_file_response(
     actual: CreateFileResponseSchema, expected: CreateFileRequestSchema
-):
+) -> None:
     """
     Проверить данные ответа 'создать файл' на соответствие данным запроса 'создать файл'.
 
@@ -29,7 +31,7 @@ def assert_create_file_response(
     assert_is_true(actual.file.id, "file id")
 
 
-def assert_file(actual: FileSchema, expected: FileSchema):
+def assert_file(actual: FileSchema, expected: FileSchema) -> None:
     """
     Проверить равенство ожидаемых и действительных данных файла.
 
@@ -46,7 +48,9 @@ def assert_file(actual: FileSchema, expected: FileSchema):
     assert_equal(actual.id, expected.id, "file id")
 
 
-def assert_get_file_response(actual: GetFileResponseSchema, expected: CreateFileResponseSchema):
+def assert_get_file_response(
+    actual: GetFileResponseSchema, expected: CreateFileResponseSchema
+) -> None:
     """
     Проверить данные ответа 'получить файл' на соответствие ожидаемым.
 
@@ -58,3 +62,85 @@ def assert_get_file_response(actual: GetFileResponseSchema, expected: CreateFile
         AssertionError: если данные ответа не соответствуют ожидаемым.
     """
     assert_file(actual.file, expected.file)
+
+
+def assert_create_file_with_empty_filename_response(actual: ValidationErrorResponseSchema) -> None:
+    """
+    Проверить что ответ API на создание файла с пустым именем файла соответствует ожидаемой ошибке
+
+    Args:
+        actual (ValidationErrorResponseSchema): полученный ответ API
+
+    Raises:
+        AssertionError: если данные ответа не соответствуют ожидаемым.
+    """
+    expected_validation_error = ValidationErrorSchema(
+        type="string_too_short",
+        location=["body", "filename"],
+        message="String should have at least 1 character",
+        input="",
+        context={"min_length": 1},
+    )
+    expected_response = ValidationErrorResponseSchema(details=[expected_validation_error])
+
+    assert_validation_error_response(actual=actual, expected=expected_response)
+
+
+def assert_create_file_with_empty_directory_response(actual: ValidationErrorResponseSchema) -> None:
+    """
+    Проверить что ответ API на создание файла с пустым именем каталога
+    соответствует ожидаемой ошибке
+
+    Args:
+        actual (ValidationErrorResponseSchema): полученный ответ API
+
+    Raises:
+        AssertionError: если данные ответа не соответствуют ожидаемым.
+    """
+    expected_validation_error = ValidationErrorSchema(
+        type="string_too_short",
+        location=["body", "directory"],
+        message="String should have at least 1 character",
+        input="",
+        context={"min_length": 1},
+    )
+    expected_response = ValidationErrorResponseSchema(details=[expected_validation_error])
+
+    assert_validation_error_response(actual=actual, expected=expected_response)
+
+
+def assert_create_file_with_empty_directory_and_filename_response(
+    actual: ValidationErrorResponseSchema,
+) -> None:
+    """
+    Проверить что ответ API на создание файла с пустым именем каталога
+    и пустым именем файла соответствует ожидаемой ошибке
+
+    Args:
+        actual (ValidationErrorResponseSchema): полученный ответ API
+
+    Raises:
+        AssertionError: если данные ответа не соответствуют ожидаемым.
+    """
+    expected_empty_filename_validation_error = ValidationErrorSchema(
+        type="string_too_short",
+        location=["body", "filename"],
+        message="String should have at least 1 character",
+        input="",
+        context={"min_length": 1},
+    )
+    expected_empty_directory_validation_error = ValidationErrorSchema(
+        type="string_too_short",
+        location=["body", "directory"],
+        message="String should have at least 1 character",
+        input="",
+        context={"min_length": 1},
+    )
+    expected_response = ValidationErrorResponseSchema(
+        details=[
+            expected_empty_filename_validation_error,
+            expected_empty_directory_validation_error,
+        ]
+    )
+
+    assert_validation_error_response(actual=actual, expected=expected_response)

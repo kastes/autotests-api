@@ -12,12 +12,8 @@ class CreateFileRequestSchema(BaseModel):
     На сервере файл будет сохранён с именем filename в directory.
     """
 
-    filename: Annotated[
-        str, StringConstraints(strip_whitespace=True, min_length=1, max_length=255)
-    ] = Field(default_factory=lambda: f"{fake.uuid4_str()}.png")
-    directory: Annotated[
-        str, StringConstraints(strip_whitespace=True, min_length=1, max_length=1024)
-    ] = Field(default="preview-courses")
+    filename: str = Field(default_factory=lambda: f"{fake.uuid4_str()}.png")
+    directory: str = Field(default="preview-courses")
     upload_file: str
 
 
