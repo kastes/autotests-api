@@ -46,18 +46,11 @@ class UpdateCourseRequestSchema(BaseModel):
 
     model_config = ConfigDict(validate_by_name=True, validate_by_alias=True)
 
-    title: (
-        Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=250)]
-        | None
-    ) = Field(default=None)
-    max_score: int | None = Field(default=None, alias="maxScore")
-    min_score: int | None = Field(default=None, alias="minScore")
-    description: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)] | None = (
-        Field(default=None)
-    )
-    estimated_time: (
-        Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=50)] | None
-    ) = Field(default=None, alias="estimatedTime")
+    title: str | None = Field(default_factory=fake.sentence)
+    max_score: int | None = Field(default_factory=fake.max_score, alias="maxScore")
+    min_score: int | None = Field(default_factory=fake.min_score, alias="minScore")
+    description: str | None = Field(default_factory=fake.text)
+    estimated_time: str | None = Field(default_factory=fake.estimated_time, alias="estimatedTime")
 
 
 class CourseSchema(BaseModel):
@@ -82,6 +75,14 @@ class CourseSchema(BaseModel):
 class CreateCourseResponseSchema(BaseModel):
     """
     Описание структуры ответа 'создать курс'
+    """
+
+    course: CourseSchema
+
+
+class UpdateCourseResponseSchema(BaseModel):
+    """
+    Описание структуры ответа 'обновить курс'
     """
 
     course: CourseSchema
