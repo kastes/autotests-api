@@ -1,8 +1,13 @@
 from clients.courses.courses_schema import (
+    CourseSchema,
+    CreateCourseResponseSchema,
+    GetCoursesResponseSchema,
     UpdateCourseRequestSchema,
     UpdateCourseResponseSchema,
 )
-from tools.assertions.base import assert_equal
+from tools.assertions.base import assert_equal, assert_length
+from tools.assertions.files import assert_file
+from tools.assertions.users import assert_user
 
 
 def assert_update_course_response(
@@ -23,3 +28,42 @@ def assert_update_course_response(
     assert_equal(actual.course.min_score, expected.min_score, "min_score")
     assert_equal(actual.course.description, expected.description, "description")
     assert_equal(actual.course.estimated_time, expected.estimated_time, "estimated_time")
+
+
+def assert_course(actual: CourseSchema, expected: CourseSchema) -> None:
+    """
+    Проверить что фактические данные курса соответствуют ожидаемым
+
+    Args:
+        actual (CourseSchema): фактические данные курса
+        expected (CourseSchema): ожидаемые данные курса
+    Raises:
+        AssertionError: если фактические данные курса не соответствуют ожидаемым.
+    """
+    assert_equal(actual.id, expected.id, "id")
+    assert_equal(actual.title, expected.title, "title")
+    assert_equal(actual.max_score, expected.max_score, "max_score")
+    assert_equal(actual.min_score, expected.min_score, "min_score")
+    assert_equal(actual.description, expected.description, "description")
+    assert_equal(actual.estimated_time, expected.estimated_time, "estimated_time")
+
+    assert_file(actual.preview_file, expected.preview_file)
+    assert_user(actual.created_by_user, expected.created_by_user)
+
+
+def assert_get_courses_response(
+    actual: GetCoursesResponseSchema, expected: list[CreateCourseResponseSchema]
+) -> None:
+    """
+    Проверить что данные ответа 'получить список курсов пользователя' соответствуют ожидаемым
+
+    Args:
+        actual (GetCoursesResponseSchema): данные ответа 'получить список курсов пользователя'
+        expected (list[CreateCourseResponseSchema]): список данных ответа 'создать курс'
+    Raises:
+        AssertionError: если данные ответа не соответствуют ожидаемым.
+    """
+    assert_length(actual.courses, expected, "courses")
+
+    for index, item in enumerate(expected):
+        assert_course(actual.courses[index], item.course)

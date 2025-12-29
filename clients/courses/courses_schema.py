@@ -14,7 +14,7 @@ class GetCoursesQuerySchema(BaseModel):
 
     model_config = ConfigDict(validate_by_name=True, validate_by_alias=True)
 
-    user_id: UUID4 = Field(alias="userId")
+    user_id: str = Field(alias="userId")
 
 
 class CreateCourseRequestSchema(BaseModel):
@@ -86,3 +86,11 @@ class UpdateCourseResponseSchema(BaseModel):
     """
 
     course: CourseSchema
+
+
+class GetCoursesResponseSchema(BaseModel):
+    """
+    Описание структуры ответа 'получить список курсов пользователя'
+    """
+
+    courses: list[CourseSchema]
