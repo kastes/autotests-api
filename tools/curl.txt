@@ -54,4 +54,27 @@ curl -X 'GET' \
   'http://localhost:8000/api/v1/files/<Valid File Id>' \
   -H 'accept: application/json' \
   -H 'Authorization: Bearer <Valid Access Token>'
-  
+
+получить файл некорректным идентификатором
+curl -X 'GET' \
+  'http://localhost:8000/api/v1/files/incorrect-file-id' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI1LTEyLTI5VDA2OjQ5OjA1LjcyOTczNiIsInVzZXJfaWQiOiIyZjM2NDBiYy1jZjRkLTRjOGYtYTViMS1lN2M5NTg0ZGY0OWEifQ.LXWecJUZ_QU9YYbHXSmn6URkNzBz1U7u-DsnYZFwUhM'
+
+ответ API на запрос с некорректным guid
+  {
+    "detail": [
+      {
+        "type":"uuid_parsing",
+        "loc":[
+          "path",
+          "file_id"
+        ],
+        "msg":"Input should be a valid UUID, invalid character: expected an optional prefix of `urn:uuid:` followed by [0-9a-fA-F-], found `i` at 1",
+        "input":"incorrect-file-id",
+        "ctx": {
+          "error":"invalid character: expected an optional prefix of `urn:uuid:` followed by [0-9a-fA-F-], found `i` at 1"
+        }
+      }
+    ]
+  }

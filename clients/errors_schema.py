@@ -11,10 +11,10 @@ class ValidationErrorSchema(BaseModel):
     model_config = ConfigDict(validate_by_alias=True, validate_by_name=True)
 
     type: str
+    location: list[str | int] = Field(alias="loc")
+    message: str = Field(alias="msg")
     input: Any
     context: dict[str, Any] = Field(alias="ctx")
-    message: str = Field(alias="msg")
-    location: list[str | int] = Field(alias="loc")
 
 
 class ValidationErrorResponseSchema(BaseModel):

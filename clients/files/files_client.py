@@ -43,7 +43,7 @@ class FilesClient(APIClient):
         response = self.create_file_api(request)
         return CreateFileResponseSchema.model_validate_json(response.text)
 
-    def get_file_api(self, file_id: UUID4) -> Response:
+    def get_file_api(self, file_id: str) -> Response:
         """
         Получить файл с идентификатором file_id
 
