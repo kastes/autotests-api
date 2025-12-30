@@ -1,11 +1,12 @@
 from clients.courses.courses_schema import (
     CourseSchema,
+    CreateCourseRequestSchema,
     CreateCourseResponseSchema,
     GetCoursesResponseSchema,
     UpdateCourseRequestSchema,
     UpdateCourseResponseSchema,
 )
-from tools.assertions.base import assert_equal, assert_length
+from tools.assertions.base import assert_equal, assert_is_true, assert_length
 from tools.assertions.files import assert_file
 from tools.assertions.users import assert_user
 
@@ -67,3 +68,28 @@ def assert_get_courses_response(
 
     for index, item in enumerate(expected):
         assert_course(actual.courses[index], item.course)
+
+
+def assert_create_course_response(
+    actual: CreateCourseResponseSchema, expected: CreateCourseRequestSchema
+) -> None:
+    """
+    Проверить что данные ответа 'создать курс' соответствуют ожидаемым
+
+    Args:
+        actual (CreateCourseResponseSchema): данные ответа 'создать курс'
+        expected (CreateCourseRequestSchema): данные запроса 'создать курс'
+    Raises:
+        AssertionError: если данные ответа не соответствуют ожидаемым.
+    """
+    assert_is_true(actual.course.id, "id")
+    assert_equal(actual.course.title, expected.title, "title")
+    assert_equal(actual.course.max_score, expected.max_score, "max_score")
+    assert_equal(actual.course.min_score, expected.min_score, "min_score")
+    assert_equal(actual.course.description, expected.description, "description")
+    assert_equal(actual.course.estimated_time, expected.estimated_time, "estimated_time")
+
+    assert_equal(actual.course.preview_file.id, expected.preview_file_id, "preview_file_id")
+    assert_equal(
+        actual.course.created_by_user.id, expected.created_by_user_id, "created_by_user_id"
+    )
