@@ -2,6 +2,7 @@ from clients.exercises.exercises_schema import (
     CreateExerciseRequestSchema,
     CreateExerciseResponseSchema,
     ExerciseSchema,
+    GetExerciseResponseSchema,
 )
 from tools.assertions.base import assert_equal, assert_is_true
 
@@ -46,3 +47,18 @@ def assert_create_exercise_response(
     assert_equal(actual.exercise.order_index, expected.order_index, "order_index")
     assert_equal(actual.exercise.description, expected.description, "description")
     assert_equal(actual.exercise.estimated_time, expected.estimated_time, "estimated_time")
+
+
+def assert_get_exercise_response(
+    actual: GetExerciseResponseSchema, expected: CreateExerciseResponseSchema
+) -> None:
+    """
+    Проверить что данные ответа 'получить упражнение' соответствуют ожидаемым
+
+    Args:
+        actual (GetExerciseResponseSchema): данные ответа 'получить упражнение'
+        expected (CreateExerciseResponseSchema): данные ответа 'создать упражнение'
+    Raises:
+        AssertionError: если данные не ответа не соответствуют ожидаемым
+    """
+    assert_exercise(actual.exercise, expected.exercise)
