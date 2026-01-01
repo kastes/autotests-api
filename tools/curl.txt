@@ -8,11 +8,20 @@ curl -X 'POST' \
   "password": "string"
 }'
 
+создать файл
+curl -X 'POST' 'http://localhost:8000/api/v1/files' \
+-H 'accept: application/json' \
+-H 'Content-Type: multipart/form-data' \
+-H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI2LTAxLTAxVDEwOjAzOjA4LjU5NDU4MSIsInVzZXJfaWQiOiIyZjM2NDBiYy1jZjRkLTRjOGYtYTViMS1lN2M5NTg0ZGY0OWEifQ.sOavtpMMUniXl10MTYDdSVp6gM3Tr_YndmW9Na1urDQ' \
+-F 'directory=string' \
+-F 'filename=string' \
+-F 'upload_file=@testdata/files/bart.png;type=image/png'
+
 создать файл с пустым именем файла
 curl -X 'POST' 'http://localhost:8000/api/v1/files' \
 -H 'accept: application/json' \
 -H 'Content-Type: multipart/form-data' \
--H 'Authorization: Bearer <Valid Access Token>' \
+-H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI2LTAxLTAxVDEwOjAzOjA4LjU5NDU4MSIsInVzZXJfaWQiOiIyZjM2NDBiYy1jZjRkLTRjOGYtYTViMS1lN2M5NTg0ZGY0OWEifQ.sOavtpMMUniXl10MTYDdSVp6gM3Tr_YndmW9Na1urDQ' \
 -F 'directory=string' \
 -F 'filename=' \
 -F 'upload_file=@testdata/files/bart.png;type=image/png'
@@ -78,3 +87,31 @@ curl -X 'GET' \
       }
     ]
   }
+
+создать курс
+  curl -X 'POST' \
+  'http://localhost:8000/api/v1/courses' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI2LTAxLTAxVDA5OjU3OjQ4LjEzNDI5OCIsInVzZXJfaWQiOiIyZjM2NDBiYy1jZjRkLTRjOGYtYTViMS1lN2M5NTg0ZGY0OWEifQ.p43lQ4yv8PCsa9JgQsPiXjNg8DjmNmVFoQrgcfBk6g8' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "title": "string",
+  "maxScore": 0,
+  "minScore": 0,
+  "description": "string",
+  "estimatedTime": "string",
+  "previewFileId": "bac9df16-f9ce-4d1b-8cd5-db0ef36ca9f0",
+  "createdByUserId": "2f3640bc-cf4d-4c8f-a5b1-e7c9584df49a"
+}'
+
+получить текущего пользователя
+curl -X 'GET' \
+  'http://localhost:8000/api/v1/users/me' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI2LTAxLTAxVDA5OjU3OjQ4LjEzNDI5OCIsInVzZXJfaWQiOiIyZjM2NDBiYy1jZjRkLTRjOGYtYTViMS1lN2M5NTg0ZGY0OWEifQ.p43lQ4yv8PCsa9JgQsPiXjNg8DjmNmVFoQrgcfBk6g8'
+
+получить файл
+curl -X 'GET' \
+  'http://localhost:8000/api/v1/exercises/9fc6cd20-69a6-41f4-abd3-8fa9dc122c22' \
+  -H 'accept: application/json' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOiIyMDI2LTAxLTAxVDEwOjMxOjQ4LjMyNTY5NSIsInVzZXJfaWQiOiIyZjM2NDBiYy1jZjRkLTRjOGYtYTViMS1lN2M5NTg0ZGY0OWEifQ.77ar54uJ3YeUafNFKJH2oBG_jXsAarP7HL8zbNcZGEw'
