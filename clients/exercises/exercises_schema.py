@@ -47,15 +47,15 @@ class UpdateExerciseRequestSchema(BaseModel):
     title: (
         Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=250)]
         | None
-    ) = Field(default=None)
-    max_score: int | None = Field(default=None, alias="maxScore")
-    min_score: int | None = Field(default=None, alias="minScore")
-    order_index: int | None = Field(default=None, alias="orderIndex")
+    ) = Field(default_factory=fake.sentence)
+    max_score: int | None = Field(default_factory=fake.max_score, alias="maxScore")
+    min_score: int | None = Field(default_factory=fake.min_score, alias="minScore")
+    order_index: int | None = Field(default_factory=fake.integer, alias="orderIndex")
     description: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)] | None = (
-        Field(default=None)
+        Field(default_factory=fake.text)
     )
     estimated_time: Annotated[str, StringConstraints(min_length=1, max_length=50)] | None = Field(
-        default=None, alias="estimatedTime"
+        default_factory=fake.estimated_time, alias="estimatedTime"
     )
 
 

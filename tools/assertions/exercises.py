@@ -3,6 +3,8 @@ from clients.exercises.exercises_schema import (
     CreateExerciseResponseSchema,
     ExerciseSchema,
     GetExerciseResponseSchema,
+    UpdateExerciseRequestSchema,
+    UpdateExerciseResponseSchema,
 )
 from tools.assertions.base import assert_equal, assert_is_true
 
@@ -62,3 +64,23 @@ def assert_get_exercise_response(
         AssertionError: если данные не ответа не соответствуют ожидаемым
     """
     assert_exercise(actual.exercise, expected.exercise)
+
+
+def assert_update_exercise_response(
+    actual: UpdateExerciseResponseSchema, expected: UpdateExerciseRequestSchema
+) -> None:
+    """
+    Проверить что данные ответа 'обновить упражнение' соответствуют ожидаемым
+
+    Args:
+        actual (UpdateExerciseResponseSchema): данные ответа 'обновить упражнение'
+        expected (UpdateExerciseRequestSchema): данные запроса 'обновить упражнение'
+    Raises:
+        AssertionError: если данные не ответа не соответствуют ожидаемым
+    """
+    assert_equal(actual.exercise.title, expected.title, "title")
+    assert_equal(actual.exercise.max_score, expected.max_score, "max_score")
+    assert_equal(actual.exercise.min_score, expected.min_score, "min_score")
+    assert_equal(actual.exercise.order_index, expected.order_index, "order_index")
+    assert_equal(actual.exercise.description, expected.description, "description")
+    assert_equal(actual.exercise.estimated_time, expected.estimated_time, "estimated_time")
