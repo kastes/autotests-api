@@ -1,3 +1,5 @@
+import allure
+
 from clients.errors_schema import (
     InternalErrorResponseSchema,
     ValidationErrorResponseSchema,
@@ -6,6 +8,7 @@ from clients.errors_schema import (
 from tools.assertions.base import assert_equal, assert_length
 
 
+@allure.step("Check validation error")
 def assert_validation_error(actual: ValidationErrorSchema, expected: ValidationErrorSchema) -> None:
     """
     Проверить объект ошибки валидации на совпадение с ожидаемым значением
@@ -22,6 +25,7 @@ def assert_validation_error(actual: ValidationErrorSchema, expected: ValidationE
     assert_equal(actual.context, expected.context, "context")
 
 
+@allure.step("Check validation error response")
 def assert_validation_error_response(
     actual: ValidationErrorResponseSchema, expected: ValidationErrorResponseSchema
 ) -> None:
@@ -39,6 +43,7 @@ def assert_validation_error_response(
         assert_validation_error(actual.details[index], detail)
 
 
+@allure.step("Check internal error response")
 def assert_internal_error_response(
     actual: InternalErrorResponseSchema, expected: InternalErrorResponseSchema
 ) -> None:

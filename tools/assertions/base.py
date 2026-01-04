@@ -4,7 +4,10 @@
 
 from typing import Any, Sized
 
+import allure
 
+
+@allure.step("Check that response status code equals {expected}")
 def assert_status_code(actual: int, expected: int) -> None:
     """
     Проверить кода ответа на соответствие ожидаемому
@@ -18,6 +21,7 @@ def assert_status_code(actual: int, expected: int) -> None:
     assert actual == expected, f"Неправильный код ответа. Ожидался: {expected}. Получен {actual}"
 
 
+@allure.step("Check that {name} equals {expected}")
 def assert_equal(actual: Any, expected: Any, name: str) -> None:
     """
     Проверить действительное значение на равенство ожидаемому
@@ -31,6 +35,7 @@ def assert_equal(actual: Any, expected: Any, name: str) -> None:
     assert actual == expected, f"Имя: {name}. Ожидался: {expected}. Получен {actual}"
 
 
+@allure.step("Check that {name} is True")
 def assert_is_true(actual: Any, name: str) -> None:
     """
     Проверить значение на истинность
@@ -55,7 +60,8 @@ def assert_length(actual: Sized, expected: Sized, name: str) -> None:
     :type name: str
     :raises AssertionError: если длины объектов не совпадают
     """
-    assert len(actual) == len(expected), (
-        f"Имя: {name}. Длины ожидаемого и полученного объектов не совпадают. "
-        f"Ожидалось: {len(expected)}. Получено: {len(actual)}"
-    )
+    with allure.step(f"Check that length of {name} equals {len(expected)}"):
+        assert len(actual) == len(expected), (
+            f"Имя: {name}. Длины ожидаемого и полученного объектов не совпадают. "
+            f"Ожидалось: {len(expected)}. Получено: {len(actual)}"
+        )
