@@ -29,3 +29,7 @@ __pycache__/
 
 # flake8
 .flake8
+
+# allure report
+allure-results/
+allure-report/
