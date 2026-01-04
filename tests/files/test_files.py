@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+import allure
 import pytest
 
 from clients.errors_schema import (
@@ -29,6 +30,7 @@ from tools.assertions.schema import validate_json_schema
 @pytest.mark.files
 @pytest.mark.regression
 class TestFiles:
+    @allure.title("Create file")
     def test_create_file(self, files_client: FilesClient):
         """
         Тест сценария 'создать файл'.
@@ -41,6 +43,7 @@ class TestFiles:
         assert_create_file_response(response_data, request)
         validate_json_schema(response.json(), CreateFileResponseSchema.model_json_schema())
 
+    @allure.title("Get file")
     def test_get_file(self, files_client: FilesClient, function_file: FileFixture):
         """
         Тест сценария 'получить файл'.
@@ -52,6 +55,7 @@ class TestFiles:
         assert_get_file_response(response_data, function_file.response)
         validate_json_schema(response.json(), GetFileResponseSchema.model_json_schema())
 
+    @allure.title("Create file with empty filename")
     def test_create_file_with_empty_filename(self, files_client: FilesClient) -> None:
         """
         Тест негативного сценария 'создать файл с пустым именем файла'
@@ -66,6 +70,7 @@ class TestFiles:
         assert_create_file_with_empty_filename_response(response_data)
         validate_json_schema(response.json(), ValidationErrorResponseSchema.model_json_schema())
 
+    @allure.title("Create file with empty directory")
     def test_create_file_with_empty_directory(self, files_client: FilesClient) -> None:
         """
         Тест негативного сценария 'создать файл с пустым именем каталога'
@@ -80,6 +85,7 @@ class TestFiles:
         assert_create_file_with_empty_directory_response(response_data)
         validate_json_schema(response.json(), ValidationErrorResponseSchema.model_json_schema())
 
+    @allure.title("Create file with empty directory and filename")
     def test_create_file_with_empty_directory_and_filename(self, files_client: FilesClient) -> None:
         """
         Тест негативного сценария 'создать файл с пустым именем каталога и пустым именем файла'
@@ -94,6 +100,7 @@ class TestFiles:
         assert_create_file_with_empty_directory_and_filename_response(response_data)
         validate_json_schema(response.json(), ValidationErrorResponseSchema.model_json_schema())
 
+    @allure.title("Delete file")
     def test_delete_file(self, files_client: FilesClient, function_file: FileFixture) -> None:
         """
         Тест сценария 'удалить файл'
@@ -108,6 +115,7 @@ class TestFiles:
         assert_file_not_found_response(get_response_data)
         validate_json_schema(get_response.json(), InternalErrorResponseSchema.model_json_schema())
 
+    @allure.title("Get file with incorrect file id")
     def test_get_file_with_incorrect_file_id(self, files_client: FilesClient) -> None:
         """
         Тест негативного сценария 'получить файл с incorrect-file-id'.

@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+import allure
 import pytest
 
 from clients.courses.courses_client import CoursesClient
@@ -26,6 +27,7 @@ from tools.assertions.schema import validate_json_schema
 @pytest.mark.courses
 @pytest.mark.regression
 class TestCourses:
+    @allure.title("Update course")
     def test_update_course(
         self, function_course: CourseFixture, courses_client: CoursesClient
     ) -> None:
@@ -42,6 +44,7 @@ class TestCourses:
         assert_update_course_response(response_data, request)
         validate_json_schema(response.json(), UpdateCourseResponseSchema.model_json_schema())
 
+    @allure.title("Get courses")
     def test_get_courses(
         self,
         courses_client: CoursesClient,
@@ -59,6 +62,7 @@ class TestCourses:
         assert_get_courses_response(response_data, [function_course.response])
         validate_json_schema(response.json(), GetCoursesResponseSchema.model_json_schema())
 
+    @allure.title("Create course")
     def test_create_course(
         self,
         courses_client: CoursesClient,
