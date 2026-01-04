@@ -2,6 +2,7 @@ from http import HTTPStatus
 
 import allure
 import pytest
+from allure_commons.types import Severity
 
 from clients.courses.courses_client import CoursesClient
 from clients.courses.courses_schema import (
@@ -35,6 +36,7 @@ class TestCourses:
     @allure.title("Update course")
     @allure.tag(AllureTag.UPDATE_ENTITY)
     @allure.story(AllureStory.UPDATE_ENTITY)
+    @allure.severity(Severity.CRITICAL)
     def test_update_course(
         self, function_course: CourseFixture, courses_client: CoursesClient
     ) -> None:
@@ -54,6 +56,7 @@ class TestCourses:
     @allure.title("Get courses")
     @allure.tag(AllureTag.GET_ENTITIES)
     @allure.story(AllureStory.GET_ENTITIES)
+    @allure.severity(Severity.BLOCKER)
     def test_get_courses(
         self,
         courses_client: CoursesClient,
@@ -74,6 +77,7 @@ class TestCourses:
     @allure.title("Create course")
     @allure.tag(AllureTag.CREATE_ENTITY)
     @allure.story(AllureStory.CREATE_ENTITY)
+    @allure.severity(Severity.BLOCKER)
     def test_create_course(
         self,
         courses_client: CoursesClient,
@@ -92,5 +96,6 @@ class TestCourses:
         response_data = CreateCourseResponseSchema.model_validate_json(response.text)
         assert_status_code(response.status_code, HTTPStatus.OK)
         assert_create_course_response(response_data, request)
+        validate_json_schema(response.json(), CreateCourseResponseSchema.model_json_schema())
         validate_json_schema(response.json(), CreateCourseResponseSchema.model_json_schema())
         validate_json_schema(response.json(), CreateCourseResponseSchema.model_json_schema())

@@ -2,6 +2,7 @@ from http import HTTPStatus
 
 import allure
 import pytest
+from allure_commons.types import Severity
 
 from clients.errors_schema import (
     InternalErrorResponseSchema,
@@ -38,6 +39,7 @@ class TestFiles:
     @allure.title("Create file")
     @allure.tag(AllureTag.CREATE_ENTITY)
     @allure.story(AllureStory.CREATE_ENTITY)
+    @allure.severity(Severity.BLOCKER)
     def test_create_file(self, files_client: FilesClient):
         """
         Тест сценария 'создать файл'.
@@ -53,6 +55,7 @@ class TestFiles:
     @allure.title("Get file")
     @allure.tag(AllureTag.GET_ENTITY)
     @allure.story(AllureStory.GET_ENTITY)
+    @allure.severity(Severity.BLOCKER)
     def test_get_file(self, files_client: FilesClient, function_file: FileFixture):
         """
         Тест сценария 'получить файл'.
@@ -67,6 +70,7 @@ class TestFiles:
     @allure.title("Create file with empty filename")
     @allure.tag(AllureTag.VALIDATE_ENTITY)
     @allure.story(AllureStory.VALIDATE_ENTITY)
+    @allure.severity(Severity.NORMAL)
     def test_create_file_with_empty_filename(self, files_client: FilesClient) -> None:
         """
         Тест негативного сценария 'создать файл с пустым именем файла'
@@ -84,6 +88,7 @@ class TestFiles:
     @allure.title("Create file with empty directory")
     @allure.tag(AllureTag.VALIDATE_ENTITY)
     @allure.story(AllureStory.VALIDATE_ENTITY)
+    @allure.severity(Severity.NORMAL)
     def test_create_file_with_empty_directory(self, files_client: FilesClient) -> None:
         """
         Тест негативного сценария 'создать файл с пустым именем каталога'
@@ -101,6 +106,7 @@ class TestFiles:
     @allure.title("Create file with empty directory and filename")
     @allure.tag(AllureTag.VALIDATE_ENTITY)
     @allure.story(AllureStory.VALIDATE_ENTITY)
+    @allure.severity(Severity.NORMAL)
     def test_create_file_with_empty_directory_and_filename(self, files_client: FilesClient) -> None:
         """
         Тест негативного сценария 'создать файл с пустым именем каталога и пустым именем файла'
@@ -118,6 +124,7 @@ class TestFiles:
     @allure.title("Delete file")
     @allure.tag(AllureTag.DELETE_ENTITY)
     @allure.story(AllureStory.DELETE_ENTITY)
+    @allure.severity(Severity.NORMAL)
     def test_delete_file(self, files_client: FilesClient, function_file: FileFixture) -> None:
         """
         Тест сценария 'удалить файл'
@@ -135,6 +142,7 @@ class TestFiles:
     @allure.title("Get file with incorrect file id")
     @allure.tag(AllureTag.VALIDATE_ENTITY)
     @allure.story(AllureStory.VALIDATE_ENTITY)
+    @allure.severity(Severity.NORMAL)
     def test_get_file_with_incorrect_file_id(self, files_client: FilesClient) -> None:
         """
         Тест негативного сценария 'получить файл с incorrect-file-id'.
