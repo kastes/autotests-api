@@ -1,3 +1,4 @@
+import allure
 from httpx import Response
 from pydantic import UUID4
 
@@ -14,6 +15,7 @@ class FilesClient(APIClient):
     Клиент для работы с API файлов /api/v1/files
     """
 
+    @allure.step("Create file")
     def create_file_api(self, request: CreateFileRequestSchema) -> Response:
         """
         Создать файл
@@ -43,6 +45,7 @@ class FilesClient(APIClient):
         response = self.create_file_api(request)
         return CreateFileResponseSchema.model_validate_json(response.text)
 
+    @allure.step("Get file by id {file_id}")
     def get_file_api(self, file_id: str) -> Response:
         """
         Получить файл с идентификатором file_id
@@ -54,6 +57,7 @@ class FilesClient(APIClient):
         """
         return self.get(f"/api/v1/files/{file_id}")
 
+    @allure.step("Delete file by id {file_id}")
     def delete_file_api(self, file_id: UUID4) -> Response:
         """
         Удалить файл с идентификатором file_id

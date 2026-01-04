@@ -1,5 +1,6 @@
 from typing import Any
 
+import allure
 from httpx import URL, Client, Response
 from httpx._types import QueryParamTypes, RequestData, RequestFiles
 
@@ -17,9 +18,10 @@ class APIClient:
         """
         self._client = client
 
+    @allure.step("Make GET request to {url}")
     def get(self, url: URL | str, params: QueryParamTypes | None = None) -> Response:
         """
-        Выполняет GET-запрос.
+        Выполнить GET-запрос.
 
         :param url: URL-адрес эндпоинта.
         :param params: GET-параметры запроса (например, ?key=value).
@@ -27,6 +29,7 @@ class APIClient:
         """
         return self._client.get(url, params=params)
 
+    @allure.step("Make POST request to {url}")
     def post(
         self,
         url: URL | str,
@@ -35,7 +38,7 @@ class APIClient:
         files: RequestFiles | None = None,
     ) -> Response:
         """
-        Выполняет POST-запрос.
+        Выполнить POST-запрос.
 
         :param url: URL-адрес эндпоинта.
         :param json: Данные в формате JSON.
@@ -45,9 +48,10 @@ class APIClient:
         """
         return self._client.post(url, json=json, data=data, files=files)
 
+    @allure.step("Make PATCH request to {url}")
     def patch(self, url: URL | str, json: Any | None = None) -> Response:
         """
-        Выполняет PATCH-запрос (частичное обновление данных).
+        Выполнить PATCH-запрос (частичное обновление данных).
 
         :param url: URL-адрес эндпоинта.
         :param json: Данные для обновления в формате JSON.
@@ -55,9 +59,10 @@ class APIClient:
         """
         return self._client.patch(url, json=json)
 
+    @allure.step("Make DELETE request to {url}")
     def delete(self, url: URL | str) -> Response:
         """
-        Выполняет DELETE-запрос (удаление данных).
+        Выполнить DELETE-запрос (удаление данных).
 
         :param url: URL-адрес эндпоинта.
         :return: Объект Response с данными ответа.
