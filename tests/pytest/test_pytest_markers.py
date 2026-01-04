@@ -1,4 +1,4 @@
-import pytest
+"""import pytest
 
 pytestmark = pytest.mark.skip("Пропустить примеры маркеров.")
 
@@ -39,3 +39,4 @@ class TestCheckout:
 
 def test_search():
     pass
+"""
