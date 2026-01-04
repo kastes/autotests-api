@@ -22,9 +22,12 @@ from tools.assertions.schema import validate_json_schema
 @allure.tag(AllureTag.REGRESSION, AllureTag.AUTHENTICATION)
 @allure.epic(AllureEpic.LMS)
 @allure.feature(AllureFeature.AUTHENTICATION)
+@allure.parent_suite(AllureEpic.LMS)
+@allure.suite(AllureFeature.AUTHENTICATION)
 class TestAuthentication:
     @allure.title("Login with correct email and password")
     @allure.story(AllureStory.LOGIN)
+    @allure.sub_suite(AllureStory.LOGIN)
     @allure.severity(Severity.BLOCKER)
     def test_login(self, authentication_client: AuthenticationClient, function_user: UserFixture):
         """
