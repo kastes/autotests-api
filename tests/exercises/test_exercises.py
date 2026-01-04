@@ -16,6 +16,7 @@ from clients.exercises.exercises_schema import (
 )
 from fixtures.courses import CourseFixture
 from fixtures.exercises import ExerciseFixture
+from tools.allure.tags import AllureTag
 from tools.assertions.base import assert_status_code
 from tools.assertions.exercises import (
     assert_create_exercise_response,
@@ -29,8 +30,10 @@ from tools.assertions.schema import validate_json_schema
 
 @pytest.mark.exercises
 @pytest.mark.regression
+@allure.tag(AllureTag.REGRESSION, AllureTag.EXERCISES)
 class TestExercises:
     @allure.title("Create exercise")
+    @allure.tag(AllureTag.CREATE_ENTITY)
     def test_create_exercise(
         self, exercises_client: ExercisesClient, function_course: CourseFixture
     ) -> None:
@@ -46,6 +49,7 @@ class TestExercises:
         validate_json_schema(response.json(), CreateExerciseResponseSchema.model_json_schema())
 
     @allure.title("Get exercise")
+    @allure.tag(AllureTag.GET_ENTITY)
     def test_get_exercise(
         self, exercises_client: ExercisesClient, function_exercise: ExerciseFixture
     ) -> None:
@@ -60,6 +64,7 @@ class TestExercises:
         validate_json_schema(response.json(), GetExerciseResponseSchema.model_json_schema())
 
     @allure.title("Update exercise")
+    @allure.tag(AllureTag.UPDATE_ENTITY)
     def test_update_exercise(
         self, function_exercise: ExerciseFixture, exercises_client: ExercisesClient
     ) -> None:
@@ -77,6 +82,7 @@ class TestExercises:
         validate_json_schema(response.json(), UpdateExerciseResponseSchema.model_json_schema())
 
     @allure.title("Delete exercise")
+    @allure.tag(AllureTag.DELETE_ENTITY)
     def test_delete_exercise(
         self, function_exercise: ExerciseFixture, exercises_client: ExercisesClient
     ) -> None:
@@ -99,6 +105,7 @@ class TestExercises:
         validate_json_schema(get_response.json(), InternalErrorResponseSchema.model_json_schema())
 
     @allure.title("Get exercises")
+    @allure.tag(AllureTag.GET_ENTITIES)
     def test_get_exercises(
         self,
         exercises_client: ExercisesClient,
