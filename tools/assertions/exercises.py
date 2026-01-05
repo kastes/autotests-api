@@ -1,3 +1,5 @@
+import allure
+
 from clients.errors_schema import InternalErrorResponseSchema
 from clients.exercises.exercises_schema import (
     CreateExerciseRequestSchema,
@@ -12,6 +14,7 @@ from tools.assertions.base import assert_equal, assert_is_true, assert_length
 from tools.assertions.errors import assert_internal_error_response
 
 
+@allure.step("Check exercise")
 def assert_exercise(actual: ExerciseSchema, expected: ExerciseSchema) -> None:
     """
     Проверить данные 'упражнение' на равенство
@@ -32,6 +35,7 @@ def assert_exercise(actual: ExerciseSchema, expected: ExerciseSchema) -> None:
     assert_equal(actual.estimated_time, expected.estimated_time, "estimated_time")
 
 
+@allure.step("Check create exercise response")
 def assert_create_exercise_response(
     actual: CreateExerciseResponseSchema, expected: CreateExerciseRequestSchema
 ) -> None:
@@ -54,6 +58,7 @@ def assert_create_exercise_response(
     assert_equal(actual.exercise.estimated_time, expected.estimated_time, "estimated_time")
 
 
+@allure.step("Check get exercise response")
 def assert_get_exercise_response(
     actual: GetExerciseResponseSchema, expected: CreateExerciseResponseSchema
 ) -> None:
@@ -69,6 +74,7 @@ def assert_get_exercise_response(
     assert_exercise(actual.exercise, expected.exercise)
 
 
+@allure.step("Check update exercise response")
 def assert_update_exercise_response(
     actual: UpdateExerciseResponseSchema, expected: UpdateExerciseRequestSchema
 ) -> None:
@@ -89,6 +95,7 @@ def assert_update_exercise_response(
     assert_equal(actual.exercise.estimated_time, expected.estimated_time, "estimated_time")
 
 
+@allure.step("Check exercise not found response")
 def assert_exercise_not_found_response(actual: InternalErrorResponseSchema) -> None:
     """
     Проверить данные ответа 'упражнение не найдено на сервере'
@@ -102,6 +109,7 @@ def assert_exercise_not_found_response(actual: InternalErrorResponseSchema) -> N
     assert_internal_error_response(actual, expected)
 
 
+@allure.step("Check get list exercises response")
 def assert_get_exercises_response(
     actual: GetExercisesResponseSchema, expected: list[CreateExerciseResponseSchema]
 ) -> None:
