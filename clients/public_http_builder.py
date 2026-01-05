@@ -1,6 +1,7 @@
 from httpx import Client
 
 from clients import BASE_URL, TIMEOUT
+from clients.event_hooks import curl_event_hook
 
 
 def get_public_http_client() -> Client:
@@ -9,4 +10,4 @@ def get_public_http_client() -> Client:
 
     :return: Готовый к использованию объект httpx.Client.
     """
-    return Client(timeout=TIMEOUT, base_url=BASE_URL)
+    return Client(timeout=TIMEOUT, base_url=BASE_URL, event_hooks={"request": [curl_event_hook]})
