@@ -1,6 +1,14 @@
 from typing import Annotated
 
-from pydantic import UUID4, BaseModel, Field, HttpUrl, StringConstraints, UrlConstraints
+from pydantic import (
+    UUID4,
+    BaseModel,
+    Field,
+    FilePath,
+    HttpUrl,
+    StringConstraints,
+    UrlConstraints,
+)
 
 from tools.fakers import fake
 
@@ -14,7 +22,7 @@ class CreateFileRequestSchema(BaseModel):
 
     filename: str = Field(default_factory=lambda: f"{fake.uuid4_str()}.png")
     directory: str = Field(default="preview-courses")
-    upload_file: str
+    upload_file: FilePath
 
 
 class FileSchema(BaseModel):

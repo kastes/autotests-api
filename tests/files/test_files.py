@@ -14,6 +14,7 @@ from clients.files.files_schema import (
     CreateFileResponseSchema,
     GetFileResponseSchema,
 )
+from config import settings
 from fixtures.files import FileFixture
 from tools.allure.behaviors import AllureEpic, AllureFeature, AllureStory
 from tools.allure.tags import AllureTag
@@ -47,7 +48,7 @@ class TestFiles:
         """
         Тест сценария 'создать файл'.
         """
-        request = CreateFileRequestSchema(upload_file="./testdata/files/pytest-logo.png")
+        request = CreateFileRequestSchema(upload_file=settings.test_data.image_png_file)
         response = files_client.create_file_api(request)
 
         response_data = CreateFileResponseSchema.model_validate_json(response.text)
@@ -81,7 +82,7 @@ class TestFiles:
         Тест негативного сценария 'создать файл с пустым именем файла'
         """
         request = CreateFileRequestSchema(
-            filename="", upload_file="./testdata/files/pytest-logo.png"
+            filename="", upload_file=settings.test_data.image_png_file
         )
         response = files_client.create_file_api(request)
 
@@ -100,7 +101,7 @@ class TestFiles:
         Тест негативного сценария 'создать файл с пустым именем каталога'
         """
         request = CreateFileRequestSchema(
-            directory="", upload_file="./testdata/files/pytest-logo.png"
+            directory="", upload_file=settings.test_data.image_png_file
         )
         response = files_client.create_file_api(request)
 
@@ -119,7 +120,7 @@ class TestFiles:
         Тест негативного сценария 'создать файл с пустым именем каталога и пустым именем файла'
         """
         request = CreateFileRequestSchema(
-            directory="", filename="", upload_file="./testdata/files/pytest-logo.png"
+            directory="", filename="", upload_file=settings.test_data.image_png_file
         )
         response = files_client.create_file_api(request)
 

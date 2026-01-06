@@ -1,6 +1,5 @@
 import allure
 
-from clients import BASE_URL
 from clients.errors_schema import (
     InternalErrorResponseSchema,
     ValidationErrorResponseSchema,
@@ -12,6 +11,7 @@ from clients.files.files_schema import (
     FileSchema,
     GetFileResponseSchema,
 )
+from config import settings
 from tools.assertions.base import assert_equal, assert_is_true
 from tools.assertions.errors import (
     assert_internal_error_response,
@@ -33,7 +33,9 @@ def assert_create_file_response(
     Raises:
         AssertionError: если данные ответа не соответствуют данным запроса
     """
-    expected_url = f"{BASE_URL}/static/{expected.directory}/{expected.filename}"
+    expected_url = (
+        f"{settings.http_client.client_url}static/{expected.directory}/{expected.filename}"
+    )
 
     assert_equal(str(actual.file.url), expected_url, "file URL")
     assert_equal(actual.file.directory, expected.directory, "file directory")
