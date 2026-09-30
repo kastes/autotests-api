@@ -6,7 +6,6 @@
 3. Создать курс
 4. Создать упражнение
 """
-from config import settings
 
 from clients.courses.courses_client import get_courses_client
 from clients.courses.courses_schema import CreateCourseRequestSchema
@@ -20,6 +19,7 @@ from clients.files.files_schema import CreateFileRequestSchema
 from clients.private_http_builder import AuthenticationUserSchema
 from clients.users.public_users_client import get_public_users_client
 from clients.users.users_schema import CreateUserRequestSchema
+from config import settings
 
 # 1 Создать пользователя через API
 public_users_client = get_public_users_client()

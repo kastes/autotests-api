@@ -1,4 +1,4 @@
-from typing import Annotated, List
+from typing import Annotated
 
 from pydantic import UUID4, BaseModel, ConfigDict, Field, StringConstraints
 
@@ -91,7 +91,7 @@ class GetExercisesResponseSchema(BaseModel):
     Описание структуры ответа 'получить список упражнениий'
     """
 
-    exercises: List[ExerciseSchema]
+    exercises: list[ExerciseSchema]
 
 
 class CreateExerciseResponseSchema(BaseModel):

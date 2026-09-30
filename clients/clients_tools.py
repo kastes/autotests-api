@@ -1,11 +1,11 @@
-from typing import Dict, Set, TypeVar
+from typing import TypeVar
 
 from pydantic import BaseModel
 
 T = TypeVar("T", bound=BaseModel)
 
 
-def request_with_secret_to_dict(request: T, *, secret_fields: Set[str]) -> Dict[str, str]:
+def request_with_secret_to_dict(request: T, *, secret_fields: set[str]) -> dict[str, str]:
     """
     Вернуть словарь содержащий поля Pydantic модели {поле: значение}.
     Поля содержащие секретные (SecretStr) значения обрабатываются отдельно.

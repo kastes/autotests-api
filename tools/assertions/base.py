@@ -2,7 +2,8 @@
 Базовые проверки
 """
 
-from typing import Any, Sized
+from collections.abc import Sized
+from typing import Any
 
 import allure
 

@@ -8,11 +8,11 @@ def test_pytest_first() -> None:
 
 
 def test_pytest_second() -> None:
-    assert 1 == 2
+    assert False
 
 
 def test_pytest_third() -> None:
-    assert 1 == 1
+    assert True
 
 
 class TestPytestClass:
@@ -25,7 +25,7 @@ class TestPytestClass:
 
 def test_exceptions() -> None:
     with pytest.raises(ZeroDivisionError):
-        1 / 0
+        1 / 0  # pyright: ignore[reportUnusedExpression] # noqa: B018
 
 
 def test_lists():
