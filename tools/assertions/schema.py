@@ -4,8 +4,6 @@ from uuid import UUID
 import allure
 from jsonschema import Draft202012Validator, validate
 
-# _checker =
-
 
 @Draft202012Validator.FORMAT_CHECKER.checks(format="uuid4", raises=(ValueError, AttributeError))
 def is_uuid4(instance):

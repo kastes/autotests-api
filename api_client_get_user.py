@@ -9,7 +9,11 @@
 from clients.private_http_builder import AuthenticationUserSchema
 from clients.users.private_users_client import get_private_users_client
 from clients.users.public_users_client import get_public_users_client
-from clients.users.users_schema import CreateUserRequestSchema
+from clients.users.users_schema import (
+    CreateUserRequestSchema,
+    UpdateUserRequestSchema,
+    UpdateUserResponseSchema,
+)
 
 # 1 Создать пользователя через API
 public_users_client = get_public_users_client()
@@ -28,3 +32,20 @@ private_users_client = get_private_users_client(user=authentication_user)
 # 3 Получить данные пользователя по /api/v1/users/{user_id}
 get_user_data = private_users_client.get_user(user_id=str(create_user_data.user.id))
 print("User data: ", get_user_data)
+print()
+
+# 4 Обновить частично (lastName)
+update_user_request = UpdateUserRequestSchema(lastName="last", email="a@aaa.aa")
+update_user_resp = private_users_client.update_user_api(
+    user_id=str(create_user_data.user.id), request=update_user_request
+)
+
+update_user_data = UpdateUserResponseSchema.model_validate_json(update_user_resp.text)
+print(f"{update_user_request=}")
+print("User data: ", update_user_data)
+print()
+
+# 5 Удалить пользователя
+delete_user_resp = private_users_client.delete_user_api(user_id=str(create_user_data.user.id))
+print(f"{delete_user_resp=}")
+print(f"{delete_user_resp.text=}")

@@ -60,7 +60,9 @@ class PrivateUsersClient(APIClient):
         :return: Ответ сервера
         :rtype: httpx.Response
         """
-        return self.patch(f"/api/v1/users/{user_id}", json=request.model_dump(by_alias=True))
+        return self.patch(
+            f"/api/v1/users/{user_id}", json=request.model_dump(by_alias=True, exclude_none=True)
+        )
 
     @allure.step("Delete user by id {user_id}")
     def delete_user_api(self, user_id: str) -> Response:
