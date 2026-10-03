@@ -47,6 +47,7 @@ print()
 
 # испортить поле email
 create_user_response_json["user"]["email"] = "asd"
+create_user_response_json["user"]["id"] = "???"
 print(create_user_response_json)
 print()
 
