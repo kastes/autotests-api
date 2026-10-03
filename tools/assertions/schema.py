@@ -4,10 +4,10 @@ from uuid import UUID
 import allure
 from jsonschema import Draft202012Validator, validate
 
-_checker = Draft202012Validator.FORMAT_CHECKER
+# _checker =
 
 
-@_checker.checks(format="uuid4", raises=(ValueError, AttributeError))
+@Draft202012Validator.FORMAT_CHECKER.checks(format="uuid4", raises=(ValueError, AttributeError))
 def is_uuid4(instance):
     if not isinstance(instance, str):
         return True
@@ -31,4 +31,4 @@ def validate_json_schema(instance: Any, schema: dict) -> None:
         jsonschema.exceptions.ValidationError: если объект не соответствует схеме
     """
 
-    validate(instance=instance, schema=schema, format_checker=_checker)
+    validate(instance=instance, schema=schema, format_checker=Draft202012Validator.FORMAT_CHECKER)
